@@ -1370,6 +1370,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <div style="margin-top:8px;"><button class="secondary-btn gray" id="reverseCalcOpenBtn" style="width:100%;" data-i18n="revTitle">逆算電卓</button></div>
 <div style="margin-top:8px;"><button class="secondary-btn gray" id="settingsHelpBtn" style="width:100%;" data-i18n="help">使い方</button></div>
 <div style="margin-top:8px;"><button class="secondary-btn gray" id="settingsOnboardBtn" style="width:100%;" data-i18n="onboardAgain">初回案内をもう一度</button></div>
+<div style="margin-top:8px;"><button class="secondary-btn gray" id="demoModeBtn" style="width:100%;">審査用デモ: OFF</button></div>
 <div class="privacy-box">
   音声は端末内だけで処理し、サーバーへ送りません。履歴もこの端末に保存されます。<br>
   問い合わせ: <a href="mailto:enginerace.setup.notes@gmail.com" style="color:inherit;">enginerace.setup.notes@gmail.com</a><br>
@@ -1707,6 +1708,7 @@ const gearOptions = ["3.5:1", "3.7:1", "4.0:1", "4.2:1", "5:1", "6.4:1", "8.75:1
 
 let audioContext = null;
 let analyser = null;
+let demoMode = false;
 let micStream = null;
 let dataArray = null;
 let running = false;
@@ -1859,10 +1861,27 @@ renderHistory();
 });
 
 /* ========== 集音構造 ========== */
+function fillDemoSpectrum() {
+  const sr = (audioContext && audioContext.sampleRate) || 44100;
+  const bins = dataArray ? dataArray.length : 1024;
+  if (!dataArray) dataArray = new Uint8Array(bins);
+  const binToHz = sr / FFT_SIZE;
+  const targetHz = 500;
+  const t = performance.now() / 1000;
+  for (let i = 0; i < dataArray.length; i++) {
+    const hz = i * binToHz;
+    const dist = Math.abs(hz - targetHz);
+    let v = 8 + Math.random() * 6;
+    if (dist < 40) v = 160 - dist * 2.8 + Math.sin(t * 6) * 8;
+    if (Math.abs(hz - targetHz * 2) < 25) v = Math.max(v, 48);
+    dataArray[i] = Math.max(0, Math.min(255, v));
+  }
+}
+
 async function startMic() {
 if (running) return;
 
-if (!window.isSecureContext) {
+if (!demoMode && !window.isSecureContext) {
   UI.statusLine.textContent = "ERROR: HTTPSで開いてください";
   UI.fftStatusLabel.textContent = "ERROR";
   alert("この開き方ではマイクが使えません。\n\n・https で開いてください\n・file:// では Safari の集音はできません");
@@ -1879,13 +1898,30 @@ const gum = (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
       }
     : null;
 
-if (!gum) {
+if (!demoMode && !gum) {
   alert("このブラウザはマイク取得に対応していません。");
   return false;
 }
 
 running = true;
 try {
+  if (demoMode) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC && !audioContext) audioContext = new AC();
+    if (audioContext && audioContext.state === "suspended") {
+      try { await audioContext.resume(); } catch (e) {}
+    }
+    const bins = (typeof FFT_SIZE === "number" ? FFT_SIZE / 2 : 2048);
+    dataArray = new Uint8Array(bins);
+    analyser = { getByteFrequencyData: function() { fillDemoSpectrum(); } };
+    ignoreFrames = 2;
+    UI.fftStatusLabel.textContent = "DEMO";
+    UI.statusLine.textContent = "DEMO — マイクなしの見本波形";
+    UI.startBtn.textContent = "計測停止";
+    UI.startBtn.classList.replace("blue", "red");
+    loopFFT();
+    return true;
+  }
   // Safari: ユーザー操作の直後に AudioContext を生成・resume
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) throw new Error("AudioContext未対応");
@@ -3271,6 +3307,16 @@ function publishToMemory(showAlert) {
     if (step >= pages.length - 1) closeOnboard();
     else { step += 1; renderOnboard(); }
   });
+  const demoBtn = document.getElementById("demoModeBtn");
+  if (demoBtn) {
+    demoBtn.addEventListener("click", function() {
+      demoMode = !demoMode;
+      demoBtn.textContent = demoMode ? "審査用デモ: ON" : "審査用デモ: OFF";
+      if (running) {
+        try { if (typeof stopMic === "function") stopMic(); } catch (e) {}
+      }
+    });
+  }
   const again = document.getElementById("settingsOnboardBtn");
   if (again) again.addEventListener("click", function() {
     if (UI.settingsModal) UI.settingsModal.style.display = "none";
