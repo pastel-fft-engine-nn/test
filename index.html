@@ -1639,7 +1639,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </div>
 </div>
 </div>
-<div class="speed-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote">1秒以上で表示</small></div>
+<div class="speed-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote">安定後・1秒以上</small></div>
 </div>
 
 <div class="section-kicker kicker-speed">SPEED (km/h)<button type="button" class="qmark" id="speedHelpBtn" aria-label="速度の説明">?</button></div>
@@ -1663,7 +1663,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </div>
 </div>
 </div>
-<div class="speed-avg">AVG <span id="speedAvg">--</span><small id="speedAvgNote">1秒以上で表示</small></div>
+<div class="speed-avg">AVG <span id="speedAvg">--</span><small id="speedAvgNote">安定後・1秒以上</small></div>
 
 <div class="realtime-center" id="statusLine">READY — 計測待機中</div>
 
@@ -1905,9 +1905,9 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <h4>マイクの棒と READY</h4>
 <p>マイクが入っているかの印です。READY はまだ測っていない状態です。計測を始めると MEASURING — 解析中 に変わります。</p>
 <h4>MOTOR RPM</h4>
-<p>モーター回転の推定です。CURRENT が今の値、MAX がこの計測でいちばん高かった値、MIN がいちばん低かった値です。枠を押すと目標を入れられます。詳しくは「目標回転」。</p>
+<p>モーター回転の推定です。CURRENT が今の値、MAX がこの計測でいちばん高かった値、MIN がいちばん低かった値です。下の AVG は、安定して回っているあいだの平均です。枠を押すと目標を入れられます。詳しくは「平均」と「目標回転」。</p>
 <h4>SPEED (km/h)</h4>
-<p>その回転から計算した机上の速度です。CURRENT が今、TOP がこの計測の最高、MIN が最低です。実走の速度計ではありません。計算の中身は「速度が机上値である理由」。</p>
+<p>その回転から計算した机上の速度です。CURRENT が今、TOP がこの計測の最高、MIN が最低です。下の AVG は、同じ区間の平均速度です。実走の速度計ではありません。計算の中身は「速度が机上値である理由」。</p>
 <h4>状態の文字</h4>
 <p>数字の下の READY や MEASURING は、今が待機か計測中かを示す一行です。</p>
 <p class="onboard-en">Top of the screen: the spectrum is the live sound, MOTOR RPM is the estimate (current / max / min), SPEED is a desk calculation, not a track speed.</p>
@@ -1934,7 +1934,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <h4>履歴</h4>
 <p>保存した記録の一覧を開きます。詳しくは「履歴の画面」。</p>
 <h4>リセット</h4>
-<p>今画面に出ている CURRENT、MAX、MIN と速度だけを消します。履歴は消えません。計測の途中なら、計測自体は続きます。ロック中ならロックも外れます。</p>
+<p>今画面に出ている CURRENT、MAX、MIN、AVG と速度だけを消します。履歴は消えません。計測の途中なら、計測自体は続きます。ロック中ならロックも外れます。</p>
 <h4>マシン設定</h4>
 <p>駆動、モーター、電圧、ギヤ比、タイヤ径を入れます。詳しくは「マシン設定の項目」。</p>
 <h4>逆算</h4>
@@ -1942,6 +1942,38 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <h4>設定</h4>
 <p>ノイズ閾値、校正、負荷、外観、言語、ダークを変えます。この使い方も、設定の中から開きます。トップには使い方のボタンはありません。</p>
 <p class="onboard-en">The text row is history, reset, machine, reverse calc, and settings. Reset clears only the live numbers.</p>
+</div>
+</div>
+
+<div class="help-acc">
+<button type="button">平均</button>
+<div class="help-body">
+<p>MOTOR RPM と SPEED の下にある AVG は、この計測で安定して回っていたあいだの平均です。コースを走った実平均ではありません。</p>
+<ul>
+<li>8000rpm 未満は入れない。電源を入れた直後の低い回転を外すため</li>
+<li>急に上がっているあいだも入れない。計測開始が先でも、電源が先でも、立ち上がりは両方とも外す</li>
+<li>落ち着いてから 0.6 秒たって数え始め、合計 1 秒以上で数字を出す。それまでは --</li>
+<li>音が途切れて -- のあいだは平均に足さない</li>
+<li>ロックすると止まる。停止しても値は残るので、そのあと保存できる</li>
+<li>次の計測開始とリセットで消える</li>
+</ul>
+<p>右の秒数は、平均に入った時間です。履歴では速度と回転の横に avg として残ります。</p>
+<p class="onboard-en">AVG is the stable part of this run only. Spin-up and gaps are left out. It is not a lap average.</p>
+</div>
+</div>
+
+<div class="help-acc">
+<button type="button">設定のお気に入り</button>
+<div class="help-body">
+<p>マシン設定の「設定のお気に入り」です。今の車の条件を、名前つきでまとめて残せます。</p>
+<ul>
+<li>先に記録名を入れる。それがお気に入りの名前になる</li>
+<li>この設定を登録、で残る。駆動、シャーシ、モーター、電圧、ギヤ、タイヤ、閾値、集音範囲、負荷、校正</li>
+<li>名前を押すと、その一式に戻る</li>
+<li>削除で、その登録だけ消える。履歴の記録は消えない</li>
+<li>この端末の中だけに残る。最大 12 件</li>
+</ul>
+<p class="onboard-en">Setup favorites store the whole machine and measure setup under the record name. Tap a name to restore it.</p>
 </div>
 </div>
 
@@ -2311,6 +2343,14 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <p class="hint">下の欄が、この記録の名前です。トップの「保存」を押すと、この名前が入った確認画面が開きます。空なら、その場で入力できます。履歴は「履歴」の計測履歴に1件増えます。前の記録は消えません。</p>
 <input type="text" class="tire-step-input" id="recordNameInput" maxlength="16" placeholder="ここに名前を入力" autocomplete="off" style="margin-top:8px;">
 </div>
+<div class="machine-item">
+<div class="setting-label"><span>設定のお気に入り</span></div>
+<p class="hint">駆動・シャーシ・モーター・電圧・ギヤ・タイヤ・閾値・集音範囲・負荷を、名前つきでまとめて残します。</p>
+<div style="display:flex;gap:8px;margin-top:8px;">
+<button type="button" class="secondary-btn gray" id="setupFavSave" style="flex:1;">この設定を登録</button>
+</div>
+<div id="setupFavList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>
+</div>
 <div style="display:flex;gap:8px;margin-top:4px;">
 <button class="secondary-btn gray" id="machineToRevBtn" style="flex:1;">ロック履歴</button>
 <button class="primary-btn blue" id="machineCloseBtn" style="flex:1;">反映して閉じる</button>
@@ -2449,11 +2489,15 @@ let avgSpeedSum = 0;
 let avgRpmSum = 0;
 let avgSpeedMs = 0;
 let avgLastTs = 0;
+let avgLastRpm = 0;
+let avgStableMs = 0;
 function resetSpeedAvg() {
   avgSpeedSum = 0;
   avgRpmSum = 0;
   avgSpeedMs = 0;
   avgLastTs = 0;
+  avgLastRpm = 0;
+  avgStableMs = 0;
   paintSpeedAvg();
 }
 function currentAvgSpeed() {
@@ -2471,24 +2515,27 @@ function paintSpeedAvg() {
   const rpmNote = document.getElementById("rpmAvgNote");
   const v = currentAvgSpeed();
   const r = currentAvgRpm();
-  const sec = avgSpeedMs >= 1000 ? (avgSpeedMs / 1000).toFixed(1) + "s" : "1秒以上で表示";
+  const sec = avgSpeedMs >= 1000 ? (avgSpeedMs / 1000).toFixed(1) + "s" : "安定後・1秒以上";
   if (el) el.textContent = v == null ? "--" : v.toFixed(2);
   if (note) note.textContent = sec;
   if (rpmEl) rpmEl.textContent = r == null ? "--" : Math.round(r).toLocaleString();
   if (rpmNote) rpmNote.textContent = sec;
 }
 function addSpeedSample(speed, rpm) {
-  if (!(speed > 0) || !isFinite(speed)) { avgLastTs = 0; return; }
-  const now = performance.now();
-  if (avgLastTs > 0) {
-    const dt = Math.min(400, now - avgLastTs);
-    if (dt > 0) {
-      avgSpeedSum += speed * dt;
-      if (rpm > 0 && isFinite(rpm)) avgRpmSum += rpm * dt;
-      avgSpeedMs += dt;
-    }
+  if (!(speed > 0) || !(rpm > 0) || !isFinite(speed) || !isFinite(rpm)) {
+    avgLastTs = 0; avgLastRpm = 0; avgStableMs = 0; return;
   }
+  const now = performance.now();
+  const dt = avgLastTs > 0 ? Math.min(400, now - avgLastTs) : 0;
+  const rising = avgLastRpm > 0 && dt > 0 && ((rpm - avgLastRpm) / dt) > 6;
   avgLastTs = now;
+  avgLastRpm = rpm;
+  if (rising || rpm < 8000 || dt <= 0) { avgStableMs = 0; return; }
+  avgStableMs += dt;
+  if (avgStableMs < 600) return;
+  avgSpeedSum += speed * dt;
+  avgRpmSum += rpm * dt;
+  avgSpeedMs += dt;
   paintSpeedAvg();
 }
 let maxSpeedRaw = 0;
@@ -3731,6 +3778,83 @@ function persistMachine() {
   syncMachineToMain();
   refreshMachineSummary();
 }
+
+function loadSetupFavs() {
+  try { return JSON.parse(localStorage.getItem("rpmSetupFavs") || "[]"); } catch (e) { return []; }
+}
+function saveSetupFavs(list) {
+  localStorage.setItem("rpmSetupFavs", JSON.stringify(list.slice(0, 12)));
+}
+function captureSetupFav() {
+  const name = ((document.getElementById("recordNameInput") || {}).value || "").trim() || "設定";
+  return {
+    id: Date.now().toString(36),
+    name: name,
+    shaft: machineState.shaft || "none",
+    chassis: machineState.chassis || "common",
+    motor: (document.getElementById("machineMotorSelect") || {}).value || "",
+    volt: (document.getElementById("machineVoltSelect") || {}).value || "2.8",
+    gear: (document.getElementById("machineGearSelect") || {}).value || "3.7:1",
+    tire: (document.getElementById("machineTireInput") || {}).value || "22.5",
+    noise: (UI.noiseRange && UI.noiseRange.value) || "20",
+    rpmMin: (UI.rpmMinLimit && UI.rpmMinLimit.value) || "5000",
+    rpmMax: (UI.rpmMaxLimit && UI.rpmMaxLimit.value) || "40000",
+    load: (UI.loadFactorRange && UI.loadFactorRange.value) || "0",
+    cal: (UI.rpmCalRange && UI.rpmCalRange.value) || "1.00"
+  };
+}
+function applySetupFav(fav) {
+  if (!fav) return;
+  machineState.shaft = fav.shaft || "none";
+  machineState.chassis = fav.chassis || "common";
+  machineState.motor = fav.motor || "";
+  rebuildMachineLists();
+  const set = function(id, v) { const el = document.getElementById(id); if (el && v != null) el.value = v; };
+  set("machineVoltSelect", fav.volt);
+  set("machineGearSelect", fav.gear);
+  set("machineTireInput", fav.tire);
+  set("machineMotorSelect", fav.motor);
+  if (UI.noiseRange && fav.noise != null) { UI.noiseRange.value = fav.noise; UI.noiseLabel.textContent = String(noiseThreshold()); }
+  if (UI.rpmMinLimit && fav.rpmMin) { UI.rpmMinLimit.value = fav.rpmMin; UI.rpmMinLimit.dispatchEvent(new Event("input")); }
+  if (UI.rpmMaxLimit && fav.rpmMax) { UI.rpmMaxLimit.value = fav.rpmMax; UI.rpmMaxLimit.dispatchEvent(new Event("input")); }
+  if (UI.loadFactorRange && fav.load != null) { UI.loadFactorRange.value = fav.load; UI.loadFactorLabel.textContent = fav.load + "%"; }
+  if (UI.rpmCalRange && fav.cal != null) { UI.rpmCalRange.value = fav.cal; UI.rpmCalLabel.textContent = Number(fav.cal).toFixed(2); }
+  persistMachine();
+}
+function renderSetupFavs() {
+  const box = document.getElementById("setupFavList");
+  if (!box) return;
+  const list = loadSetupFavs();
+  box.innerHTML = list.length ? "" : "<p class=\"hint\">まだありません。上の記録名が、お気に入りの名前になります。</p>";
+  list.forEach(function(fav) {
+    const row = document.createElement("div");
+    row.style.cssText = "display:flex;gap:6px;";
+    const apply = document.createElement("button");
+    apply.type = "button";
+    apply.className = "secondary-btn gray";
+    apply.style.flex = "1";
+    apply.textContent = fav.name + " / " + (fav.gear || "") + " / " + (fav.tire || "") + "mm";
+    apply.addEventListener("click", function() { applySetupFav(fav); });
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "secondary-btn gray";
+    del.textContent = "削除";
+    del.addEventListener("click", function() {
+      saveSetupFavs(loadSetupFavs().filter(function(x) { return x.id !== fav.id; }));
+      renderSetupFavs();
+    });
+    row.appendChild(apply);
+    row.appendChild(del);
+    box.appendChild(row);
+  });
+}
+document.getElementById("setupFavSave") && document.getElementById("setupFavSave").addEventListener("click", function() {
+  const list = loadSetupFavs();
+  list.unshift(captureSetupFav());
+  saveSetupFavs(list);
+  renderSetupFavs();
+});
+renderSetupFavs();
 
 (function initMachineModal() {
   const backdrop = document.getElementById("machineModalBackdrop");
