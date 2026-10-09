@@ -1639,6 +1639,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </div>
 </div>
 </div>
+<div class="speed-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote">1秒以上で表示</small></div>
 </div>
 
 <div class="section-kicker kicker-speed">SPEED (km/h)<button type="button" class="qmark" id="speedHelpBtn" aria-label="速度の説明">?</button></div>
@@ -2445,10 +2446,12 @@ let currentSpeedRaw = 0;
 let maxSpeedVal = 0;
 let minSpeedVal = Infinity;
 let avgSpeedSum = 0;
+let avgRpmSum = 0;
 let avgSpeedMs = 0;
 let avgLastTs = 0;
 function resetSpeedAvg() {
   avgSpeedSum = 0;
+  avgRpmSum = 0;
   avgSpeedMs = 0;
   avgLastTs = 0;
   paintSpeedAvg();
@@ -2457,20 +2460,31 @@ function currentAvgSpeed() {
   if (avgSpeedMs < 1000) return null;
   return avgSpeedSum / avgSpeedMs;
 }
+function currentAvgRpm() {
+  if (avgSpeedMs < 1000) return null;
+  return avgRpmSum / avgSpeedMs;
+}
 function paintSpeedAvg() {
   const el = document.getElementById("speedAvg");
   const note = document.getElementById("speedAvgNote");
+  const rpmEl = document.getElementById("rpmAvg");
+  const rpmNote = document.getElementById("rpmAvgNote");
   const v = currentAvgSpeed();
+  const r = currentAvgRpm();
+  const sec = avgSpeedMs >= 1000 ? (avgSpeedMs / 1000).toFixed(1) + "s" : "1秒以上で表示";
   if (el) el.textContent = v == null ? "--" : v.toFixed(2);
-  if (note) note.textContent = avgSpeedMs >= 1000 ? (avgSpeedMs / 1000).toFixed(1) + "s" : "1秒以上で表示";
+  if (note) note.textContent = sec;
+  if (rpmEl) rpmEl.textContent = r == null ? "--" : Math.round(r).toLocaleString();
+  if (rpmNote) rpmNote.textContent = sec;
 }
-function addSpeedSample(speed) {
+function addSpeedSample(speed, rpm) {
   if (!(speed > 0) || !isFinite(speed)) { avgLastTs = 0; return; }
   const now = performance.now();
   if (avgLastTs > 0) {
     const dt = Math.min(400, now - avgLastTs);
     if (dt > 0) {
       avgSpeedSum += speed * dt;
+      if (rpm > 0 && isFinite(rpm)) avgRpmSum += rpm * dt;
       avgSpeedMs += dt;
     }
   }
@@ -2981,7 +2995,7 @@ if (maxRpmVal === 0 || rpmNum > maxRpmVal) maxRpmVal = rpmNum;
 if (minRpmVal === Infinity || rpmNum < minRpmVal) minRpmVal = rpmNum;
 if (maxSpeedVal === 0 || speed > maxSpeedVal) maxSpeedVal = speed;
 if (minSpeedVal === Infinity || speed < minSpeedVal) minSpeedVal = speed;
-addSpeedSample(speed);
+addSpeedSample(speed, rpmNum);
 
 // 生の値のMAX/MIN
 if (maxRpmRaw === 0 || rawRpm > maxRpmRaw) maxRpmRaw = rawRpm;
@@ -3980,6 +3994,7 @@ ts: Date.now(),
 name, motor,
 rpm: Math.round((typeof maxRpmVal === "number" && maxRpmVal > 0) ? maxRpmVal : currentRpm),
 rpmRaw: Math.round((typeof maxRpmRaw === "number" && maxRpmRaw > 0) ? maxRpmRaw : currentRpmRaw),
+rpmAvg: (function(){ const v = currentAvgRpm(); return v == null ? null : Math.round(v); })(),
 speed: ((typeof maxSpeedVal === "number" && maxSpeedVal > 0) ? maxSpeedVal : currentSpeed).toFixed(2),
 speedRaw: ((typeof maxSpeedRaw === "number" && maxSpeedRaw > 0) ? maxSpeedRaw : currentSpeedRaw).toFixed(2),
 speedAvg: (function(){ const v = currentAvgSpeed(); return v == null ? null : v.toFixed(2); })(),
@@ -4177,6 +4192,7 @@ const isFav = h.id && isFavorite(h.id);
 const favClass = isFav ? "fav-name is-fav" : "fav-name";
 const loadBadge = h.load ? `<span class="load-badge">${h.load}</span>` : "";
 let rpmDisplay = histNumUnit(h.rpm, "RPM");
+if (h.rpmAvg) rpmDisplay += `<span style="color:var(--mute);font-size:8px;"> avg${h.rpmAvg}</span>`;
 if (h.load && h.rpmRaw) {
 rpmDisplay = `${histNumUnit(h.rpm, "RPM")}<span style="color:var(--mute);font-size:8px;"> 生${h.rpmRaw}</span>`;
 }
