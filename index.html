@@ -227,11 +227,11 @@ body.from-memory .wave-container { padding-top: 8px; padding-bottom: 8px; }
   background: transparent;
   border: 1px solid var(--line);
   border-radius: 0;
-  padding: 8px 10px 6px;
-  margin: 8px 0;
+  padding: 4px 8px 2px;
+  margin: 4px 0;
 }
 .rpm-limit-label {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--mute);
   font-weight: 700;
   display: flex;
@@ -245,15 +245,14 @@ body.from-memory .wave-container { padding-top: 8px; padding-bottom: 8px; }
   font-family: var(--num);
 }
 .pickup-note {
-  margin: -2px 0 8px;
-  font-size: 12px;
+  margin: 0 0 6px;
+  font-size: 10px;
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.4;
   letter-spacing: 0.02em;
   color: var(--mute);
 }
-
-.dual-range-container { position: relative; width: 100%; height: 28px; margin: 4px 0 0; }
+.dual-range-container { position: relative; width: 100%; height: 20px; margin: 0; }
 .dual-range-track {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 100%; height: 2px; background: var(--line);
@@ -966,7 +965,7 @@ body.theme-classic .card-title { font-size: 11px; font-weight: 800; letter-spaci
 body.theme-classic .wave-container { padding: 8px 10px 6px; margin-bottom: 10px; }
 body.theme-classic .wave-header { font-size: 9px; letter-spacing: 0.2em; margin-bottom: 4px; }
 body.theme-classic #fftStatusLabel { font-size: 10px; letter-spacing: 0.2em; font-weight: 800; }
-body.theme-classic .rpm-limit-section { padding: 8px 10px 6px; margin: 8px 0; }
+body.theme-classic .rpm-limit-section { padding: 4px 8px 2px; margin: 4px 0; }
 body.theme-classic .rpm-limit-label { font-size: 10px; letter-spacing: 0.08em; }
 body.theme-classic .dual-range-container { height: 28px; margin: 4px 0 0; }
 body.theme-classic .dual-range-track,
@@ -1600,7 +1599,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </div>
 
 <div class="rpm-limit-section">
-<div class="rpm-limit-label" style="margin-bottom:4px;">
+<div class="rpm-limit-label">
 <span>集音フィルタ (RPM範囲)</span>
 <span class="rpm-limit-value"><span id="rpmMinLimitValue">5000</span> — <span id="rpmMaxLimitValue">40000</span></span>
 </div>
@@ -1612,7 +1611,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </div>
 </div>
 
-<p class="pickup-note">下の回転数は、いま回しているモーターが出している音を集音した数値です。平均を出すときは、回してから計測開始を押してください。</p>
+<p class="pickup-note">下は回しているモーターが出す音を集音した数値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセット押してください。</p>
 
 <div id="rpmBlock">
 <div class="section-kicker kicker-rpm">MOTOR RPM<span id="rpmTargetMark"></span></div>
@@ -1901,7 +1900,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <h4>マイクの棒と READY</h4>
 <p>マイクが入っているかの印です。READY はまだ測っていない状態です。計測を始めると MEASURING — 解析中 に変わります。</p>
 <h4>MOTOR RPM</h4>
-<p>モーター回転の推定です。CURRENT が今の値、そのすぐ下の AVG が安定しているあいだの平均です。MAX がこの計測でいちばん高かった値、MIN がいちばん低かった値です。平均を出すときは、回してから計測開始を押してください。枠を押すと目標を入れられます。</p>
+<p>モーター回転の推定です。CURRENT が今の値、そのすぐ下の AVG が安定しているあいだの平均です。MAX がこの計測でいちばん高かった値、MIN がいちばん低かった値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセットを押してください。枠を押すと目標を入れられます。</p>
 <h4>SPEED (km/h)</h4>
 <p>その回転から計算した机上の速度です。CURRENT のすぐ下の AVG が、同じ区間の平均速度です。TOP がこの計測の最高、MIN が最低です。実走の速度計ではありません。</p>
 <h4>状態の文字</h4>
@@ -1944,7 +1943,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <div class="help-acc">
 <button type="button">平均</button>
 <div class="help-body">
-<p>CURRENT のすぐ下にある AVG は、この計測で安定して回っていたあいだの平均です。コースを走った実平均ではありません。平均を出すときは、回してから計測開始を押してください。</p>
+<p>CURRENT のすぐ下にある AVG は、この計測で安定して回っていたあいだの平均です。コースを走った実平均ではありません。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセットを押してください。</p>
 <ul>
 <li>8000rpm 未満は入れない。電源を入れた直後の低い回転を外すため</li>
 <li>急に上がっているあいだも入れない。計測開始が先でも、電源が先でも、立ち上がりは両方とも外す</li>
