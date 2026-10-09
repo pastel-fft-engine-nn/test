@@ -2071,10 +2071,10 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <li>押したまま3秒で「アベレージ計測中」と残り秒が出る</li>
 <li>5秒のあいだ、集音範囲とノイズ閾値を超えた回転だけを平均する</li>
 <li>5秒後に自動でロックする</li>
-<li>CURRENT の数字が平均、横の括弧も同じ平均</li>
+<li>CURRENT の本文はロックした瞬間の値、括弧が5秒平均</li>
 </ul>
 <p>計測前に長押しした場合は、マイクを始めてから5秒平均に入ります。途中で止めたいときは、計測開始（停止）を普通にタップします。山が一度も出なければロックせず、「有効な回転がありません」と出ます。</p>
-<p>比較表の起点も、この平均です。瞬間の山ではなく、5秒の落ち着いた値を残したいときに使います。</p>
+<p>比較表の起点は括弧の平均です。本文は最後の瞬間値なので、回転が安定していると二つの数字は近く、同じになることもあります。</p>
 </div>
 </div>
 
@@ -3281,6 +3281,7 @@ function finishAverage() {
     return;
   }
   const avg = Math.round(avgSamples.reduce(function(s, v) { return s + v; }, 0) / avgSamples.length);
+  const last = avgSamples[avgSamples.length - 1];
   const avgRaw = avgRawSamples.reduce(function(s, v) { return s + v; }, 0) / avgRawSamples.length;
   const avgSpd = avgSpeedSamples.reduce(function(s, v) { return s + v; }, 0) / avgSpeedSamples.length;
   avgDisplay = avg;
@@ -3292,10 +3293,10 @@ function finishAverage() {
   UI.lockBtn.textContent = (typeof tt === "function") ? tt("unlock") : "ロック解除";
   UI.lockBtn.classList.remove("outline");
   buildComparisonTable(avgRaw);
-  UI.rpmNow.innerHTML = avg + ' <span class="avg-paren">(' + avg + ')</span>';
+  UI.rpmNow.innerHTML = last + ' <span class="avg-paren">(' + avg + ')</span>';
   UI.speedNow.textContent = avgSpd.toFixed(2);
   UI.statusLine.classList.add("is-plain");
-  UI.statusLine.textContent = "ロック中。5秒平均は " + avg + " rpm。";
+  UI.statusLine.textContent = "ロック中。括弧は5秒平均 " + avg + " rpm。比較表はこの平均です。";
 }
 async function beginAverageMeasure() {
   if (avgRunning) return;
