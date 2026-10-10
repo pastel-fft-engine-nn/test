@@ -557,10 +557,40 @@ table td, table th { text-align: center !important; }
   border-radius: 0;
 }
 .machine-grid { display: grid; gap: 14px; }
-#machineModalBackdrop .modal {
-  padding: 8px 14px calc(8px + var(--safe-b));
+#machineModalBackdrop {
+  align-items: flex-start;
+  justify-content: center;
 }
-#machineModalBackdrop .modal-header { margin-bottom: 6px; }
+#machineModalBackdrop .modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 100dvh;
+  margin-top: 0;
+  border-top: 0;
+  border-radius: 0;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 14px calc(12px + var(--safe-b));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+#machineModalBackdrop .modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  margin: 0 0 8px;
+  padding: 2px 0 6px;
+  background: var(--bg);
+  align-items: flex-start;
+}
+#machineModalBackdrop .modal-close {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  font-size: 26px;
+  line-height: 36px;
+  text-align: center;
+}
 #machineModalBackdrop .modal-title { font-size: 15px; }
 #machineModalBackdrop .modal-title-note { font-size: 10px; line-height: 1.3; }
 #machineModalBackdrop .machine-grid { gap: 6px; }
@@ -3765,6 +3795,7 @@ function rebuildMachineLists() {
 
 window.openMachineModal = function() {
   rebuildMachineLists();
+  document.body.style.overflow = "hidden";
   document.getElementById("machineModalBackdrop").style.display = "flex";
 };
 
@@ -3924,6 +3955,7 @@ renderSetupFavs();
   function closeMachine() {
     persistMachine();
     backdrop.style.display = "none";
+    document.body.style.overflow = "";
   }
   document.getElementById("machineCloseTop").addEventListener("click", closeMachine);
   document.getElementById("machineCloseBtn").addEventListener("click", closeMachine);
