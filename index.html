@@ -1905,6 +1905,12 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <input type="checkbox" id="showLoadValues" checked="" style="width:18px;height:18px;"><span>負荷適用値を並べて表示</span>
 </label>
 </div>
+<div class="setting-item">
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+<input type="checkbox" id="stableGate" checked="" style="width:18px;height:18px;"><span>安定してから MAX / MIN / AVG を数える</span>
+</label>
+<p class="hint" style="margin:4px 0 0;">CURRENT はすぐ動きます。8000rpm以上が0.6秒続いたら、そこからトップ・ミニマム・平均を記録します。オフにすると、数字が出た瞬間から記録します。</p>
+</div>
 <div class="pref-board">
 <div class="pref-group" id="lookGroup">
 <button type="button" class="secondary-btn gray" id="lookToggleBtn">外観</button>
@@ -2573,22 +2579,32 @@ function paintSpeedAvg() {
   if (rpmEl) rpmEl.textContent = r == null ? "--" : Math.round(r).toLocaleString();
   if (rpmNote) rpmNote.textContent = sec;
 }
-function addSpeedSample(speed, rpm) {
-  if (!(speed > 0) || !(rpm > 0) || !isFinite(speed) || !isFinite(rpm)) {
-    avgLastTs = 0; avgLastRpm = 0; avgStableMs = 0; return;
+function addSpeedSample(speed, rpm, ready) {
+  if (!ready || !(speed > 0) || !(rpm > 0) || !isFinite(speed) || !isFinite(rpm)) return;
+  const now = performance.now();
+  const dt = avgLastTs > 0 ? Math.min(400, now - avgLastTs) : 0;
+  if (dt <= 0) return;
+  avgSpeedSum += speed * dt;
+  avgRpmSum += rpm * dt;
+  avgSpeedMs += dt;
+  paintSpeedAvg();
+}
+function noteStable(rpm) {
+  if (!(rpm > 0) || !isFinite(rpm)) {
+    avgLastTs = 0; avgLastRpm = 0; avgStableMs = 0; return false;
   }
   const now = performance.now();
   const dt = avgLastTs > 0 ? Math.min(400, now - avgLastTs) : 0;
   const rising = avgLastRpm > 0 && dt > 0 && ((rpm - avgLastRpm) / dt) > 6;
   avgLastTs = now;
   avgLastRpm = rpm;
-  if (rising || rpm < 8000 || dt <= 0) { avgStableMs = 0; return; }
+  if (rising || rpm < 8000 || dt <= 0) { avgStableMs = 0; return false; }
   avgStableMs += dt;
-  if (avgStableMs < 600) return;
-  avgSpeedSum += speed * dt;
-  avgRpmSum += rpm * dt;
-  avgSpeedMs += dt;
-  paintSpeedAvg();
+  return avgStableMs >= 600;
+}
+function stableGateOn() {
+  const box = document.getElementById("stableGate");
+  return !box || box.checked;
 }
 let maxSpeedRaw = 0;
 let minSpeedRaw = Infinity;
@@ -3090,17 +3106,19 @@ const hasLoad = loadPercent !== 0;
 // CURRENT に数字が出たときだけ MAX / MIN を更新
 if (dispNow !== "--") {
 const rpmNum = Number(dispNow);
+const ready = noteStable(rpmNum);
+const count = !stableGateOn() || ready;
+if (count) {
 if (maxRpmVal === 0 || rpmNum > maxRpmVal) maxRpmVal = rpmNum;
 if (minRpmVal === Infinity || rpmNum < minRpmVal) minRpmVal = rpmNum;
 if (maxSpeedVal === 0 || speed > maxSpeedVal) maxSpeedVal = speed;
 if (minSpeedVal === Infinity || speed < minSpeedVal) minSpeedVal = speed;
-addSpeedSample(speed, rpmNum);
-
-// 生の値のMAX/MIN
 if (maxRpmRaw === 0 || rawRpm > maxRpmRaw) maxRpmRaw = rawRpm;
 if (minRpmRaw === Infinity || rawRpm < minRpmRaw) minRpmRaw = rawRpm;
 if (maxSpeedRaw === 0 || rawSpeed > maxSpeedRaw) maxSpeedRaw = rawSpeed;
 if (minSpeedRaw === Infinity || rawSpeed < minSpeedRaw) minSpeedRaw = rawSpeed;
+}
+if (ready) addSpeedSample(speed, rpmNum, true);
 }
 
 // 表示（負荷適用後 = メイン表示）
@@ -3556,6 +3574,13 @@ UI.gearRange.addEventListener("change", () => {
   if (locked) buildComparisonTable((lockedSnapshot && lockedSnapshot.rpmRaw) || currentRpmRaw || 0);
 });
 
+const box = document.getElementById("stableGate");
+if (box) {
+  box.checked = localStorage.getItem("rpmStableGate") !== "0";
+  box.addEventListener("change", function() {
+    localStorage.setItem("rpmStableGate", box.checked ? "1" : "0");
+  });
+}
 UI.noiseRange.addEventListener("input", () => {
   UI.noiseLabel.textContent = String(noiseThreshold());
   const mark = document.getElementById("waveThMark");
