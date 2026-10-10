@@ -52,8 +52,8 @@ body:not(.dark-mode) {
 
 .app-shell {
   width: min(560px, 100%);
-  margin: 0 auto;
-  padding: 8px 12px calc(14px + var(--safe-b));
+  margin: -10px auto 0;
+  padding: 0 12px calc(14px + var(--safe-b));
 }
 
 .card {
@@ -164,7 +164,7 @@ body.from-memory .wave-container { padding-top: 8px; padding-bottom: 8px; }
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.22em;
-  margin: 2px 0 3px;
+  margin: 10px 0 6px;
   color: var(--ice);
 }
 .kicker-speed, .kicker-rpm { display: flex; align-items: center; gap: 6px; }
@@ -707,8 +707,8 @@ body.theme-classic.dark-mode {
 body.theme-classic .app-shell {
   width: min(560px, 100%);
   max-width: 560px;
-  margin: 0 auto;
-  padding: 4px 8px 8px;
+  margin: -10px auto 0;
+  padding: 0 8px 8px;
 }
 body.theme-classic .card {
   background: var(--card-bg);
@@ -960,20 +960,21 @@ body.theme-classic .audio-bar { width: 3px; background: var(--accent-blue); }
 body.theme-classic .header-right-audio { font-size: 0.7rem; letter-spacing: normal; }
 
 /* 丸み・シンプルは色と角丸だけ。縦横の比率はシャープに合わせる */
-body.theme-classic .app-shell { padding: 8px 12px calc(14px + var(--safe-b)); }
-body.theme-classic .card { padding: 12px; margin-bottom: 10px; }
+body.theme-classic .app-shell { padding: 0 12px calc(14px + var(--safe-b)); margin-top: -10px; }
+body.theme-classic .card { padding: 0 12px 12px; margin-bottom: 10px; }
+body.theme-classic .app-shell > .card:first-child { margin-top: 0; padding-top: 0; }
 body.theme-classic .card-header { margin-bottom: 8px; }
 body.theme-classic .card-title { font-size: 11px; font-weight: 800; letter-spacing: 0.2em; }
-body.theme-classic .wave-container { padding: 8px 10px 4px; margin-bottom: 4px; }
+body.theme-classic .wave-container { padding: 8px 10px 6px; margin-bottom: 10px; }
 body.theme-classic .wave-header { font-size: 9px; letter-spacing: 0.2em; margin-bottom: 4px; }
 body.theme-classic #fftStatusLabel { font-size: 10px; letter-spacing: 0.2em; font-weight: 800; }
-body.theme-classic .rpm-limit-section { padding: 3px 8px 1px; margin: 2px 0 0; }
+body.theme-classic .rpm-limit-section { padding: 4px 8px 2px; margin: 4px 0; }
 body.theme-classic .rpm-limit-label { font-size: 10px; letter-spacing: 0.08em; }
 body.theme-classic .dual-range-container { height: 28px; margin: 4px 0 0; }
 body.theme-classic .dual-range-track,
 body.theme-classic .dual-range-fill { height: 2px; }
 body.theme-classic .dual-range-container input[type="range"]::-webkit-slider-thumb { width: 16px; height: 16px; border-width: 0; }
-body.theme-classic .section-kicker { font-size: 10px; letter-spacing: 0.22em; margin: 2px 12px 3px; font-weight: 800; }
+body.theme-classic .section-kicker { font-size: 10px; letter-spacing: 0.22em; margin: 10px 12px 6px; font-weight: 800; }
 body.theme-classic .realtime-stats { grid-template-columns: 1.58865fr 0.96135fr; gap: 0; margin: 0 12px; width: calc(100% - 24px); border: none; }
 body.theme-classic .stat-stack { display: grid; grid-template-rows: 64px 64px; gap: 0; border-left: none; }
 body.theme-classic .stat-stack .stat-block + .stat-block { border-top: none; }
@@ -1528,7 +1529,7 @@ body.theme-flare .lang-pick.is-on { outline-color: #FF6A12; }
 
 .brand-bar {
   display: flex; align-items: baseline; justify-content: space-between;
-  padding: 2px 2px 4px;
+  padding: 0 2px 4px;
 }
 .brand-name { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; }
 .brand-sub { font-size: 8px; letter-spacing: 0.04em; color: var(--mute); }
