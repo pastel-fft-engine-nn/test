@@ -162,10 +162,10 @@ body.from-memory .wave-container { padding-top: 8px; padding-bottom: 8px; }
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.22em;
-  margin: 10px 0 6px;
+  margin: 6px 0 4px;
   color: var(--ice);
 }
-.kicker-speed { display: flex; align-items: center; gap: 6px; }
+.kicker-speed, .kicker-rpm { display: flex; align-items: center; gap: 6px; }
 .qmark {
   display: inline-flex;
   align-items: center;
@@ -190,16 +190,16 @@ body.from-memory .wave-container { padding-top: 8px; padding-bottom: 8px; }
 .card-title .qmark { margin-left: 8px; vertical-align: -3px; }
 .speed-basis { margin: -2px 0 8px; letter-spacing: 0.02em; font-size: 12px; font-weight: 700; line-height: 1.45; color: var(--mute); }
 .stat-avg {
-  margin-top: 4px;
+  margin-top: 2px;
   text-align: right;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.12em;
   color: var(--mute);
   font-weight: 800;
 }
 .stat-avg span {
   font-family: var(--num);
-  font-size: 18px;
+  font-size: 15px;
   letter-spacing: 0;
   color: var(--ink);
   font-weight: 800;
@@ -1611,10 +1611,11 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </div>
 </div>
 
-<p class="pickup-note">下は回しているモーターが出す音を集音した数値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセット押してください。</p>
+</section></div>
 
 <div id="rpmBlock">
-<div class="section-kicker kicker-rpm">MOTOR RPM<span id="rpmTargetMark"></span></div>
+<div class="section-kicker kicker-rpm">MOTOR RPM<span id="rpmTargetMark"></span><button type="button" class="qmark" id="rpmHelpBtn" aria-label="回転の説明">?</button></div>
+<div class="speed-basis" id="rpmBasis" hidden="">下は回しているモーターが出す音を集音した数値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセット押してください。</div>
 <div class="realtime-stats">
 <div class="stat-block stat-current">
 <div class="stat-label">CURRENT</div>
@@ -1676,7 +1677,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <button type="button" id="settingsBtn" data-i18n="settings">設定</button>
 </div>
 </div>
-</section>
+
 
 <section class="card" id="conditionsCard">
 <div class="card-header" onclick="toggleConditions()">
@@ -1737,7 +1738,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 </table>
 </div>
 </section>
-</div>
+
 
 <div id="flareApp">
   <div class="f-bar">
@@ -3139,6 +3140,7 @@ function bindHelpToggle(btnId, panelId) {
   });
 }
 bindHelpToggle("speedHelpBtn", "speedBasis");
+bindHelpToggle("rpmHelpBtn", "rpmBasis");
 bindHelpToggle("cmpHelpBtn", "cmpHelpNotes");
 
 function refreshMachineStatusUI() {
