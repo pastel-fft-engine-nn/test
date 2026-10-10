@@ -2579,28 +2579,25 @@ function paintSpeedAvg() {
   if (rpmEl) rpmEl.textContent = r == null ? "--" : Math.round(r).toLocaleString();
   if (rpmNote) rpmNote.textContent = sec;
 }
-function addSpeedSample(speed, rpm, ready) {
-  if (!ready || !(speed > 0) || !(rpm > 0) || !isFinite(speed) || !isFinite(rpm)) return;
-  const now = performance.now();
-  const dt = avgLastTs > 0 ? Math.min(400, now - avgLastTs) : 0;
-  if (dt <= 0) return;
-  avgSpeedSum += speed * dt;
+function addSpeedSample(speed, rpm, dt) {
+  if (!(dt > 0) || !(rpm > 0) || !isFinite(rpm)) return;
+  if (speed > 0 && isFinite(speed)) avgSpeedSum += speed * dt;
   avgRpmSum += rpm * dt;
   avgSpeedMs += dt;
   paintSpeedAvg();
 }
 function noteStable(rpm) {
   if (!(rpm > 0) || !isFinite(rpm)) {
-    avgLastTs = 0; avgLastRpm = 0; avgStableMs = 0; return false;
+    avgLastTs = 0; avgLastRpm = 0; avgStableMs = 0; return { ready: false, dt: 0 };
   }
   const now = performance.now();
   const dt = avgLastTs > 0 ? Math.min(400, now - avgLastTs) : 0;
   const rising = avgLastRpm > 0 && dt > 0 && ((rpm - avgLastRpm) / dt) > 6;
   avgLastTs = now;
   avgLastRpm = rpm;
-  if (rising || rpm < 8000 || dt <= 0) { avgStableMs = 0; return false; }
+  if (rising || rpm < 8000 || dt <= 0) { avgStableMs = 0; return { ready: false, dt: 0 }; }
   avgStableMs += dt;
-  return avgStableMs >= 600;
+  return { ready: avgStableMs >= 600, dt: dt };
 }
 function stableGateOn() {
   const box = document.getElementById("stableGate");
@@ -3106,7 +3103,8 @@ const hasLoad = loadPercent !== 0;
 // CURRENT に数字が出たときだけ MAX / MIN を更新
 if (dispNow !== "--") {
 const rpmNum = Number(dispNow);
-const ready = noteStable(rpmNum);
+const gate = noteStable(rpmNum);
+const ready = gate.ready;
 const count = !stableGateOn() || ready;
 if (count) {
 if (maxRpmVal === 0 || rpmNum > maxRpmVal) maxRpmVal = rpmNum;
@@ -3118,7 +3116,7 @@ if (minRpmRaw === Infinity || rawRpm < minRpmRaw) minRpmRaw = rawRpm;
 if (maxSpeedRaw === 0 || rawSpeed > maxSpeedRaw) maxSpeedRaw = rawSpeed;
 if (minSpeedRaw === Infinity || rawSpeed < minSpeedRaw) minSpeedRaw = rawSpeed;
 }
-if (ready) addSpeedSample(speed, rpmNum, true);
+if (ready) addSpeedSample(speed, rpmNum, gate.dt);
 }
 
 // 表示（負荷適用後 = メイン表示）
