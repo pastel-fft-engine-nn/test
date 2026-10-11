@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ja"><head>
 <meta charset="UTF-8">
 <title>RPM Memory</title>
@@ -18,11 +19,11 @@ if (location.protocol === "http:" || location.protocol === "https:") {
 }
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#f7f7f5">
+<meta name="theme-color" content="#0d0d0f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #101114;
@@ -1678,7 +1679,7 @@ body.theme-list .secondary-btn { border-radius: 0; }
 body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top: 8px; }
 </style>
 </head>
-<body class="load-zero theme-plain">
+<body class="dark-mode load-zero theme-classic">
 <div class="app-shell">
 
 <section class="card">
@@ -1724,7 +1725,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <div class="meter-row">
 <div id="rpmBlock">
 <div class="section-kicker kicker-rpm">MOTOR RPM<span id="rpmTargetMark"></span><button type="button" class="qmark" id="rpmHelpBtn" aria-label="回転の説明">?</button></div>
-<div class="speed-basis" id="rpmBasis" hidden="">下は回しているモーターが出す音を集音した数値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセット押してください。</div>
+<div class="speed-basis" id="rpmBasis" hidden>下は回しているモーターが出す音を集音した数値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセット押してください。</div>
 <div class="realtime-stats">
 <div class="stat-block stat-current">
 <div class="stat-label">CURRENT</div>
@@ -1749,7 +1750,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 
 <div id="speedBlock">
 <div class="section-kicker kicker-speed">SPEED (km/h)<button type="button" class="qmark" id="speedHelpBtn" aria-label="速度の説明">?</button></div>
-<div class="speed-basis" id="speedBasis" hidden="">音の回転をギヤ比で車軸に落とし、タイヤの円周で km/h にしています。校正と走行負荷は、変えたときだけ掛かります。</div>
+<div class="speed-basis" id="speedBasis" hidden>音の回転をギヤ比で車軸に落とし、タイヤの円周で km/h にしています。校正と走行負荷は、変えたときだけ掛かります。</div>
 <div class="realtime-stats">
 <div class="stat-block stat-current">
 <div class="stat-label">CURRENT</div>
@@ -1773,7 +1774,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 
 </div>
 </div>
-<div class="realtime-center" id="statusLine">計測待機中<span class="status-sub">マシン　未設定</span></div>
+<div class="realtime-center" id="statusLine">READY — 計測待機中</div>
 
 <div class="realtime-buttons">
 <div class="realtime-btn-row">
@@ -1830,11 +1831,11 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 
 <section class="card">
 <div class="card-header"><div class="card-title">電圧別比較表 <span id="cmpShaftMark">未</span><button type="button" class="qmark" id="cmpHelpBtn" aria-label="比較表の説明">?</button></div><label class="cmp-volt-prec"><input type="checkbox" id="cmpVoltFine"> 小数2位</label></div>
-<div class="cmp-summary" id="cmpSummary">未　2.8 V　ギヤ 3.7:1　タイヤ 22.5 mm。ロックすると速度が出ます。</div>
-<div id="cmpHelpNotes" hidden="">
+<div class="cmp-summary" id="cmpSummary">ロック後に、選択中の電圧・ギヤでの速度目安が表示されます。</div>
+<div id="cmpHelpNotes" hidden>
 <div class="cmp-machine-bar" id="cmpMachineBar">駆動は未選択　モーター未選択　2.8 V　ギヤ 3.7:1　タイヤ 22.5 mm</div>
 <label class="cmp-split-toggle"><input type="checkbox" id="cmpSplitToggle"> 未設定と設定を上下比較する</label>
-<p class="cmp-machine-bar" id="cmpGearNote">駆動を選ぶと、使わないギヤの列が薄くなります。</p>
+<p class="cmp-machine-bar" id="cmpGearNote">薄い列は、今の駆動では使わないギヤです。色の濃い列が、マシン設定の範囲です。</p>
 <p class="cmp-machine-bar" id="cmpDriveNote">駆動が未選択なので、ピニオン・クラウン・プロペラの摩擦は掛けていません。</p>
 </div>
 <div class="table-wrapper">
@@ -1842,8 +1843,8 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <thead>
 <tr>
 <th>電圧</th><th>RPM</th><th class="raw-col">RPM(生)</th>
-<th data-base="3.5:1">3.5:1</th><th data-base="3.7:1">3.7:1</th><th data-base="4.0:1">4.0:1</th><th data-base="4.2:1">4.2:1</th>
-<th data-base="5.0:1">5.0:1</th><th data-base="6.4:1">6.4:1</th><th data-base="8.75:1">8.75:1</th><th data-base="11.2:1">11.2:1</th>
+<th>3.5:1</th><th>3.7:1</th><th>4.0:1</th><th>4.2:1</th>
+<th>5.0:1</th><th>6.4:1</th><th>8.75:1</th><th>11.2:1</th>
 </tr>
 </thead>
 <tbody id="comparisonBody"></tbody>
@@ -1951,8 +1952,8 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 
 <div class="modal-backdrop" id="settingsModalBackdrop">
 <div class="modal">
-<div class="modal-header"><div class="modal-title" data-i18n="settingsTitle">測定設定</div><button class="modal-close" id="settingsCloseTop">×</button></div>
-<p class="speed-basis" id="settingsLead" hidden="">回転は音からの推定、速度は机上の理論値です。公式計測器の代替ではありません。</p>
+<div class="modal-header"><div class="modal-title" data-i18n="settingsTitle">測定設定<button type="button" class="qmark" id="settingsLeadBtn" aria-label="設定の説明">?</button></div><button class="modal-close" id="settingsCloseTop">×</button></div>
+<p class="speed-basis" id="settingsLead" hidden>回転は音からの推定、速度は机上の理論値です。公式計測器の代替ではありません。</p>
 <div class="settings-row">
 <div class="setting-item"><div class="setting-label"><span>ノイズ閾値（TH）</span><span class="setting-value" id="noiseLabel">20</span></div><input type="range" id="noiseRange" min="0" max="100" step="1" value="20"></div>
 <div class="setting-item"><div class="setting-label"><span>RPM校正係数</span><span class="setting-value" id="rpmCalLabel">1.00</span></div><input type="range" id="rpmCalRange" min="0.5" max="1.5" step="0.01" value="1.00"></div>
@@ -1965,16 +1966,16 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
 <input type="checkbox" id="stableGate" checked="" style="width:18px;height:18px;"><span>安定してから MAX / MIN / AVG を数える</span><button type="button" class="qmark" id="stableGateBtn" aria-label="安定後の説明">?</button>
 </label>
-<p class="speed-basis" id="stableGateNote" hidden="">CURRENT はすぐ動きます。8000rpm以上が0.6秒続いたら、そこからトップ・ミニマム・平均を記録します。オフにすると、数字が出た瞬間から記録します。</p>
+<p class="speed-basis" id="stableGateNote" hidden>CURRENT はすぐ動きます。8000rpm以上が0.6秒続いたら、そこからトップ・ミニマム・平均を記録します。オフにすると、数字が出た瞬間から記録します。</p>
 </div>
 <div class="pref-board">
 <div class="pref-group" id="lookGroup">
 <button type="button" class="secondary-btn gray" id="lookToggleBtn">外観</button>
 <div class="theme-pick-row" id="themePickRow" style="display:none;">
 <button type="button" class="secondary-btn gray theme-pick" data-theme="sharp" data-i18n="themeSharp">シャープ</button>
-<button type="button" class="secondary-btn gray theme-pick" data-theme="classic" data-i18n="themeClassic">丸み</button>
+<button type="button" class="secondary-btn gray theme-pick is-on" data-theme="classic" data-i18n="themeClassic">丸み</button>
 <button type="button" class="secondary-btn gray theme-pick" data-theme="flare">FLARE</button>
-<button type="button" class="secondary-btn gray theme-pick is-on" data-theme="plain" data-i18n="themePlain">シンプル</button>
+<button type="button" class="secondary-btn gray theme-pick" data-theme="plain" data-i18n="themePlain">シンプル</button>
 <button type="button" class="secondary-btn gray theme-pick" data-theme="list">羅列</button>
 </div>
 </div>
@@ -1987,7 +1988,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 </div>
 <button class="secondary-btn gray pref-dark" id="darkModeToggleBtn" data-i18n="darkOff">ダーク</button>
 </div>
-<button type="button" id="uiThemeToggleBtn" style="display:none" aria-hidden="true">外観: シンプル</button>
+<button type="button" id="uiThemeToggleBtn" style="display:none" aria-hidden="true">外観: 現行（丸み）</button>
 <button type="button" id="reverseCalcOpenBtn" style="display:none" aria-hidden="true"></button>
 <div style="margin-top:8px;"><button class="secondary-btn gray" id="settingsHelpBtn" style="width:100%;" data-i18n="help">使い方</button></div>
 <div style="display:flex;gap:8px;margin-top:12px;">
@@ -2007,6 +2008,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <div class="modal-backdrop" id="helpModalBackdrop">
 <div class="modal">
 <div class="modal-header"><div class="modal-title" data-i18n="help">使い方</div><button class="modal-close" id="helpCloseTop">×</button></div>
+<div id="helpJa">
 <p class="help-note">RPM Memory はモーター音の高さから回転数を推定する測定アプリです。値は推定と机上計算です。公式回転計の代替ではありません。下の項目は、閉じたまま並んでいます。知りたい名前を押すと開きます。</p>
 
 <div class="help-acc open">
@@ -2388,10 +2390,44 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
   </div>
 </div>
 
+</div>
+<div id="helpEn" hidden>
+<p class="help-note">RPM Memory estimates motor RPM from sound. Values are estimates and desk calculations. It is not a certified tachometer. Tap a heading to open it.</p>
+<div class="help-acc open">
+<button type="button">Screen</button>
+<div class="help-body">
+<p>From the top: the name, the spectrum, the pickup window, MOTOR RPM, SPEED, status, and buttons.</p>
+<p>CURRENT is the live value. AVG is the stable part of this run. MAX and MIN are the high and low of this run. With "count after stable" on, MAX, MIN and AVG start only after 8000 rpm has held for 0.6 seconds.</p>
+<p>SPEED is a desk calculation from RPM, gear and tire. It is not track speed.</p>
+</div>
+</div>
+<div class="help-acc">
+<button type="button">Buttons</button>
+<div class="help-body">
+<p>Start uses the microphone. Lock freezes the number for the chart and writes a lock memo. Save asks for a name and writes a measurement record. Reset clears only the live numbers.</p>
+<p>History is the list of saved measurements. The lock memo in machine setup is a separate list of lock moments. They are not the same.</p>
+<p>Reverse calc opens with the locked numbers, and you can still edit them. The item you solve for is greyed out.</p>
+</div>
+</div>
+<div class="help-acc">
+<button type="button">History</button>
+<div class="help-body">
+<p>Each card is a saved measurement. The left side is the check, delete, name and voltage. Row 1 is motor, RPM and speed. Row 2 is gear, average RPM (RPMA) and average speed (km/hA). Row 3 is tire and date.</p>
+<p>Filter and sort is closed until you tap it. Delete RPM 0 removes records whose RPM is 0.</p>
+</div>
+</div>
+<div class="help-acc">
+<button type="button">Machine setup</button>
+<div class="help-body">
+<p>Set shaft, chassis, motor, voltage, gear, tire and load. Registering a setup asks for a name and stores voltage and running load too.</p>
+<p>There is no name field here. The name is asked when you tap Save on the top screen. The name field inside the lock memo is only for that lock moment.</p>
+</div>
+</div>
+</div>
 <div class="modal-backdrop" id="targetModalBackdrop">
 <div class="modal">
 <div class="modal-header"><div class="modal-title">目標回転<button type="button" class="qmark" id="targetNoteBtn" aria-label="目標の説明">?</button></div><button class="modal-close" id="targetCloseTop" type="button">×</button></div>
-<p class="speed-basis" id="targetNote" hidden="">MAX の数字がこの値以上になると、赤く強調されます。</p>
+<p class="speed-basis" id="targetNote" hidden>MAX の数字がこの値以上になると、赤く強調されます。</p>
 <div class="input-row">
 <label for="rpmTargetInput">目標 (rpm)</label>
 <input type="number" id="rpmTargetInput" min="0" max="120000" step="100" inputmode="numeric" placeholder="例: 30000">
@@ -2405,22 +2441,22 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="machineModalBackdrop">
 <div class="modal">
-<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">マシン設定<button type="button" class="qmark" id="machineNoteBtn" aria-label="マシン設定の説明">?</button></div><div class="speed-basis" id="machineNote" hidden="">計測中にロックを押した際に出現する比較表に反映されます。机上での計算なので、実際と差異があります。</div></div><button class="modal-close" id="machineCloseTop">×</button></div>
+<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">マシン設定<button type="button" class="qmark" id="machineNoteBtn" aria-label="マシン設定の説明">?</button></div><div class="speed-basis" id="machineNote" hidden>計測中にロックを押した際に出現する比較表に反映されます。机上での計算なので、実際と差異があります。</div></div><button class="modal-close" id="machineCloseTop">×</button></div>
 <div class="machine-grid">
 <div class="machine-item">
 <div class="setting-label"><span>駆動</span><span class="setting-value" id="shaftLabel">指定なし</span></div>
 <div class="seg-row">
 <button type="button" class="seg-btn active" data-shaft="none">指定なし</button>
-<button type="button" class="seg-btn is-locked" data-shaft="dual" disabled="">両軸</button>
-<button type="button" class="seg-btn is-locked" data-shaft="single" disabled="">片軸</button>
+<button type="button" class="seg-btn is-locked" data-shaft="dual" disabled>両軸</button>
+<button type="button" class="seg-btn is-locked" data-shaft="single" disabled>片軸</button>
 </div>
 </div>
 <div class="machine-item">
 <div class="setting-label"><span>シャーシ<button type="button" class="qmark" id="chassisHintBtn" aria-label="シャーシの説明">?</button></span><span class="setting-value" id="chassisLabel">共通（指定なし）</span></div>
 <div class="field-locked">
-<select class="cond-select" id="chassisSelect" disabled=""><option value="common" selected="">共通（指定なし）</option><option value="me">ME（両軸）</option><option value="ma">MA（両軸）</option><option value="ms">MS（両軸）</option><option value="fma">FM-A（前・片軸）</option><option value="vz">VZ（後・片軸）</option><option value="ar">AR（後・片軸）</option><option value="s2">スーパーII（後・片軸）</option><option value="vs">VS（後・片軸）</option><option value="sxx">スーパーXX（後・片軸）</option><option value="sfm">スーパーFM（前・片軸）</option><option value="fm">FM（前・片軸）</option><option value="stzx">スーパーTZ-X（後・片軸）</option><option value="tz">スーパーTZ（後・片軸）</option><option value="sx">スーパーX（後・片軸）</option><option value="s1">スーパー1（後・片軸）</option><option value="zero">ゼロ（後・片軸）</option><option value="t5">タイプ5（後・片軸）</option><option value="t4">タイプ4（後・片軸）</option><option value="t3">タイプ3（後・片軸）</option><option value="t2">タイプ2（後・片軸）</option><option value="t1">タイプ1（後・片軸）</option></select>
+<select class="cond-select" id="chassisSelect" disabled><option value="common" selected="">共通（指定なし）</option></select>
 </div>
-<p class="speed-basis" id="chassisHint" hidden="">駆動・シャーシを絞らない。ギヤは全公表比。速度は机上換算で、シャーシ固有ロス％は自動加算していません。</p>
+<p class="speed-basis" id="chassisHint" hidden>駆動・シャーシを絞らない。ギヤは全公表比。</p>
 </div>
 <div class="machine-item">
 <div class="setting-label"><span>モーター</span><span class="setting-value" id="machineMotorLabel">未選択</span></div>
@@ -2455,28 +2491,23 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <input type="range" id="loadFactorRange" min="-100" max="100" step="1" value="0">
 </div>
 <div class="machine-item">
-<div class="setting-label"><span>保存モード<button type="button" class="qmark" id="saveModeNoteBtn" aria-label="保存モードの説明">?</button></span></div>
-<select class="cond-select" id="saveModeSelect">
-<option value="ask">毎回名前を聞いて保存</option>
-<option value="quick">前回の名前で上書き確認</option>
-</select>
-<p class="speed-basis" id="saveModeNote" hidden="">下の欄が、この記録の名前です。トップの「保存」を押すと、この名前が入った確認画面が開きます。空なら、その場で入力できます。履歴は「履歴」の計測履歴に1件増えます。前の記録は消えません。</p>
-<input type="text" class="tire-step-input" id="recordNameInput" maxlength="16" placeholder="ここに名前を入力" autocomplete="off" style="margin-top:8px;">
+<div class="setting-label"><span>名前の聞き方<button type="button" class="qmark" id="saveModeNoteBtn" aria-label="保存の説明">?</button></span></div>
+<p class="speed-basis" id="saveModeNote" hidden>名前は、トップの「保存」を押したときに聞きます。ここには名前欄はありません。ロック履歴の名前欄は、ロックした瞬間のメモ用です。計測履歴とは別です。</p>
 </div>
 <div class="machine-item">
 <div class="setting-label"><span>設定のお気に入り<button type="button" class="qmark" id="favNoteBtn" aria-label="お気に入りの説明">?</button></span></div>
-<p class="speed-basis" id="favNote" hidden="">駆動・シャーシ・モーター・電圧・ギヤ・タイヤ・閾値・集音範囲・負荷を、名前つきでまとめて残します。</p>
+<p class="speed-basis" id="favNote" hidden>駆動、シャーシ、モーター、電圧、ギヤ、タイヤ、閾値、集音範囲、走行負荷、校正をまとめて残します。電圧と走行負荷も保存されます。登録するとき名前を聞きます。</p>
 <div style="display:flex;gap:8px;margin-top:8px;">
 <button type="button" class="secondary-btn gray" id="setupFavSave" style="flex:1;">この設定を登録</button>
 </div>
-<div id="setupFavList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"><p class="hint">まだありません。上の記録名が、お気に入りの名前になります。</p></div>
+<div id="setupFavList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>
 </div>
 <div style="display:flex;gap:8px;margin-top:4px;">
-<button class="secondary-btn gray" id="machineToRevBtn" style="flex:1;">ロック履歴</button>
+<button class="secondary-btn gray" id="machineToRevBtn" style="flex:1;">ロック瞬間メモ</button>
 <button class="primary-btn blue" id="machineCloseBtn" style="flex:1;">反映して閉じる</button>
 </div>
 <div id="lockSnapPanel" style="display:none;">
-<div style="font-size:10px;letter-spacing:0.12em;color:var(--mute);padding:8px 8px 4px;">ロックした瞬間。日付だけを残します。</div>
+<div style="font-size:10px;letter-spacing:0.02em;color:var(--mute);padding:8px 8px 4px;">ロックした瞬間のメモです。トップの「履歴」とは別です。トップの履歴は、保存した計測の一覧です。</div>
 <div id="lockSnapScroll">
 <table id="lockSnapTable">
 <thead><tr><th>日付</th><th>名前</th><th>回転</th><th>モーター</th><th>ギヤ比</th><th>電圧</th><th>タイヤ径</th></tr></thead>
@@ -2490,7 +2521,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="reverseCalcModalBackdrop">
 <div class="modal">
-<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">逆算電卓<button type="button" class="qmark" id="revNoteBtn" aria-label="逆算の説明">?</button></div><div class="speed-basis" id="revNotePanel" hidden="">ロスなしの机上値です。選んだ項目はグレーアウトします。残りの3つを入力してください。速度 km/h ＝ (rpm ÷ ギヤ比) × (タイヤ径mm × π × 60) ÷ 1,000,000</div></div><button class="modal-close" id="reverseCalcCloseTop">×</button></div>
+<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">逆算電卓<button type="button" class="qmark" id="revNoteBtn" aria-label="逆算の説明">?</button></div><div class="speed-basis" id="revNotePanel" hidden>ロックした数値が反映していますが、自由に数値の変更ができます。選んだ項目はグレーアウトします。残りの3つを入力してください。速度 km/h ＝ (rpm ÷ ギヤ比) × (タイヤ径mm × π × 60) ÷ 1,000,000</div></div><button class="modal-close" id="reverseCalcCloseTop">×</button></div>
 <div class="setting-item" style="margin-bottom:10px;">
 <div class="setting-label"><span>求めたいもの</span></div>
 <select class="cond-select" id="revSolve">
@@ -2514,7 +2545,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="historyModalBackdrop">
 <div class="modal" style="max-width:95vw;width:95vw;">
-<div class="modal-header"><div class="modal-title">計測履歴</div><button class="modal-close" id="historyCloseTop">×</button></div>
+<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">計測履歴</div><div class="modal-title-note">保存した計測の一覧です。マシン設定の「ロック瞬間メモ」とは別です。</div></div><button class="modal-close" id="historyCloseTop">×</button></div>
 <button type="button" class="hist-fold-btn" id="histFoldBtn">絞り込み・並び替え（押すと開きます） ▸</button>
 <div class="hist-fold-body" id="histFoldBody">
 <div class="filter-grid">
@@ -2543,6 +2574,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <span style="color:var(--mute);font-size:11px;">行を2つ選ぶと差分表示</span>
 </div>
 </div>
+<button type="button" class="secondary-btn gray" id="histDeleteZeroBtn" style="width:100%;margin:0 0 8px;">RPM 0 を削除</button>
 <div class="history-summary" id="historySummary">
 <div class="hs-item"><div class="hs-label">件数</div><div class="hs-value" id="hsCount">0</div></div>
 <div class="hs-item"><div class="hs-label">最高RPM</div><div class="hs-value" id="hsBestRpm">—</div></div>
@@ -3231,15 +3263,16 @@ function isMachineSet() {
 }
 
 function machineStatusText() {
+  const en = window.APP_LANG === "en";
   const ms = window.machineState || {};
-  if (!isMachineSet()) return "マシン設定: 未設定（既定 3.7:1 / 22.5mm）";
-  const shaftText = ms.shaft === "single" ? "片軸" : (ms.shaft === "dual" ? "両軸" : "駆動未指定");
-  const chassisName = (typeof CHASSIS_NAME !== "undefined" && CHASSIS_NAME[ms.chassis]) ? CHASSIS_NAME[ms.chassis] : (ms.chassis || "共通");
-  const motor = ms.motor || "モーター未選択";
+  if (!isMachineSet()) return en ? "Machine: not set (default 3.7:1 / 22.5mm)" : "マシン設定: 未設定（既定 3.7:1 / 22.5mm）";
+  const shaftText = ms.shaft === "single" ? (en ? "single" : "片軸") : (ms.shaft === "dual" ? (en ? "dual" : "両軸") : (en ? "shaft unset" : "駆動未指定"));
+  const chassisName = (typeof CHASSIS_NAME !== "undefined" && CHASSIS_NAME[ms.chassis]) ? CHASSIS_NAME[ms.chassis] : (ms.chassis || (en ? "common" : "共通"));
+  const motor = ms.motor || (en ? "no motor" : "モーター未選択");
   const gear = (UI.gearLabel && UI.gearLabel.textContent) || "3.7:1";
   const tire = (UI.tireLabel && UI.tireLabel.textContent) || "22.5 mm";
   const volt = (UI.voltageLabel && UI.voltageLabel.textContent) || "";
-  return "マシン設定中: " + shaftText + " / " + chassisName + " / " + motor + " / " + volt + " / " + gear + " / " + tire;
+  return (en ? "Machine: " : "マシン設定中: ") + shaftText + " / " + chassisName + " / " + motor + " / " + volt + " / " + gear + " / " + tire;
 }
 
 function machineBarText() {
@@ -3262,7 +3295,7 @@ function shaftMarkText() {
 function paintSpeedBasis() {
   const el = document.getElementById("speedBasis");
   if (!el) return;
-  el.textContent = "音の回転をギヤ比で車軸に落とし、タイヤの円周で km/h にしています。校正と走行負荷は、変えたときだけ掛かります。";
+  el.textContent = window.APP_LANG === "en" ? "Speed is RPM divided by gear, times the tire circumference. Calibration and load apply only when you change them." : "音の回転をギヤ比で車軸に落とし、タイヤの円周で km/h にしています。校正と走行負荷は、変えたときだけ掛かります。";
 }
 
 function bindHelpToggle(btnId, panelId) {
@@ -3313,8 +3346,11 @@ function refreshMachineStatusUI() {
     }
   }
   if (UI.statusLine && !locked) {
-    const base = running ? "計測中" : "計測待機中";
-    const machine = isMachineSet() ? txt.replace("マシン設定中: ", "マシン　") : "マシン　未設定";
+    const en = window.APP_LANG === "en";
+    const base = running ? (en ? "Measuring" : "計測中") : (en ? "Waiting" : "計測待機中");
+    const machine = isMachineSet()
+      ? (en ? txt.replace("マシン設定中: ", "Machine ") : txt.replace("マシン設定中: ", "マシン　"))
+      : (en ? "Machine not set" : "マシン　未設定");
     UI.statusLine.innerHTML = base + '<span class="status-sub">' + machine + "</span>";
   }
   if (typeof gearOptions !== "undefined") {
@@ -3579,14 +3615,10 @@ if (document.getElementById("machineBtn")) {
   });
 }
 UI.saveBtn.addEventListener("click", () => {
-  const quick = window.machineState && machineState.saveMode === "quick" && state.history.length;
-  const typed = ((document.getElementById("recordNameInput") || {}).value || "").trim();
-  if (typed) UI.saveNameInput.value = typed;
-  else if (quick) UI.saveNameInput.value = state.history[0].name || "";
-  else UI.saveNameInput.value = "";
+  UI.saveNameInput.value = "";
   if (window.machineState && machineState.motor) UI.motorTypeSelect.value = machineState.motor;
   UI.saveModal.style.display = "flex";
-  if (!quick) setTimeout(function() { UI.saveNameInput.focus(); }, 60);
+  setTimeout(function() { UI.saveNameInput.focus(); }, 60);
 });
 
 
@@ -3957,7 +3989,9 @@ function saveSetupFavs(list) {
   localStorage.setItem("rpmSetupFavs", JSON.stringify(list.slice(0, 12)));
 }
 function captureSetupFav() {
-  const name = ((document.getElementById("recordNameInput") || {}).value || "").trim() || "設定";
+  const asked = window.prompt(window.APP_LANG === "en" ? "Name for this setup" : "この設定の名前", "設定");
+  if (asked == null) return null;
+  const name = asked.trim() || "設定";
   return {
     id: Date.now().toString(36),
     name: name,
@@ -3996,7 +4030,7 @@ function renderSetupFavs() {
   const box = document.getElementById("setupFavList");
   if (!box) return;
   const list = loadSetupFavs();
-  box.innerHTML = list.length ? "" : "<p class=\"hint\">まだありません。上の記録名が、お気に入りの名前になります。</p>";
+  box.innerHTML = list.length ? "" : "<p class=\"hint\">" + (window.APP_LANG === "en" ? "None yet. You will be asked for a name." : "まだありません。登録するとき名前を聞きます。電圧と走行負荷も残ります。") + "</p>";
   list.forEach(function(fav) {
     const row = document.createElement("div");
     row.style.cssText = "display:flex;gap:6px;";
@@ -4004,7 +4038,7 @@ function renderSetupFavs() {
     apply.type = "button";
     apply.className = "secondary-btn gray";
     apply.style.flex = "1";
-    apply.textContent = fav.name + " / " + (fav.gear || "") + " / " + (fav.tire || "") + "mm";
+    apply.textContent = fav.name + " / " + (fav.volt || "") + "V / " + (fav.load || "0") + "% / " + (fav.gear || "") + " / " + (fav.tire || "") + "mm";
     apply.addEventListener("click", function() { applySetupFav(fav); });
     const del = document.createElement("button");
     del.type = "button";
@@ -4020,8 +4054,10 @@ function renderSetupFavs() {
   });
 }
 document.getElementById("setupFavSave") && document.getElementById("setupFavSave").addEventListener("click", function() {
+  const fav = captureSetupFav();
+  if (!fav) return;
   const list = loadSetupFavs();
-  list.unshift(captureSetupFav());
+  list.unshift(fav);
   saveSetupFavs(list);
   renderSetupFavs();
 });
@@ -4117,7 +4153,7 @@ renderSetupFavs();
         return "&" + "quot;";
       });
       return "<tr><td>" + day + "</td><td><input class=\"lock-name\" data-i=\"" + i + "\" maxlength=\"16\" value=\"" + name + "\" placeholder=\"名前\"></td><td>" + s.rpm + "</td><td>" + (s.motor || "—") + "</td><td>" + s.gear + "</td><td>" + s.volt + "V</td><td>" + s.tire + "mm</td></tr>";
-    }).join("") : "<tr><td colspan='7'>まだありません。計測中にロックすると残ります。</td></tr>";
+    }).join("") : "<tr><td colspan='7'>" + (window.APP_LANG === "en" ? "None yet. Lock during a run to keep one." : "まだありません。計測中にロックすると残ります。") + "</td></tr>";
     if (!body.dataset.bound) {
       body.dataset.bound = "1";
       body.addEventListener("input", function(ev) {
@@ -4182,8 +4218,12 @@ renderSetupFavs();
     }
   }
   function openRev() {
-    const rpmEl = $("revRpm"), gearEl = $("revGear"), tireEl = $("revTire");
-    if (rpmEl && currentRpm) rpmEl.value = String(Math.round(currentRpm));
+    const rpmEl = $("revRpm"), gearEl = $("revGear"), tireEl = $("revTire"), speedEl = $("revSpeed");
+    const snap = (typeof locked !== "undefined" && locked && lockedSnapshot) ? lockedSnapshot : null;
+    const rpmSrc = snap && snap.rpm ? snap.rpm : currentRpm;
+    const speedSrc = snap && snap.speed ? snap.speed : currentSpeed;
+    if (rpmEl && rpmSrc) rpmEl.value = String(Math.round(Number(rpmSrc) || 0));
+    if (speedEl && speedSrc) speedEl.value = Number(speedSrc).toFixed(2);
     if (gearEl) gearEl.value = String(parseFloat((UI.gearLabel.textContent || "3.7").split(":")[0]));
     if (tireEl && UI.tireRange) tireEl.value = parseFloat(UI.tireRange.value).toFixed(1);
     modal.style.display = "flex";
@@ -4480,7 +4520,7 @@ if (hsDelta) {
 
 UI.historyList.innerHTML = filtered.length
 ? ""
-: "<div style='padding:16px; text-align:center; color:#999;'>履歴はありません</div>";
+: "<div style='padding:16px; text-align:center; color:#999;'>" + (window.APP_LANG === "en" ? "No records" : "履歴はありません") + "</div>";
 
 filtered.forEach((h) => {
 const card = document.createElement("div");
@@ -4504,7 +4544,7 @@ card.className = "hist-card" + (isBest ? " is-best" : "");
 card.innerHTML = `
   <div class="hist-top">
     <input type="checkbox" class="hist-check" data-id="${h.id || ""}" ${checked} onclick="toggleHistSelect('${h.id || ""}')">
-    <button class="delete-btn" onclick="deleteHistory(${state.history.indexOf(h)})">削除</button>
+    <button class="delete-btn" onclick="deleteHistory(${state.history.indexOf(h)})">${window.APP_LANG === "en" ? "Delete" : "削除"}</button>
   </div>
   <div class="hist-body">
     <div class="hist-left">
@@ -4545,9 +4585,22 @@ if (historySortSelect) historySortSelect.addEventListener("change", () => render
   if (!btn || !body) return;
   btn.addEventListener("click", function() {
     const open = body.classList.toggle("open");
-    btn.textContent = open ? "絞り込み・並び替え（押すと開きます） ▾" : "絞り込み・並び替え（押すと開きます） ▸";
+    const base = window.APP_LANG === "en" ? "Filter and sort (tap to open)" : "絞り込み・並び替え（押すと開きます）";
+    btn.textContent = base + (open ? " ▾" : " ▸");
   });
 })();
+const histDeleteZeroBtn = document.getElementById("histDeleteZeroBtn");
+if (histDeleteZeroBtn) histDeleteZeroBtn.addEventListener("click", function() {
+  const before = state.history.length;
+  state.history = state.history.filter(function(h) { return Number(h.rpm) > 0; });
+  const removed = before - state.history.length;
+  localStorage.setItem("rpmHistory", JSON.stringify(state.history));
+  if (typeof populateFilters === "function") populateFilters();
+  renderHistory();
+  alert(removed
+    ? (window.APP_LANG === "en" ? removed + " zero-RPM records deleted" : removed + "件の RPM 0 を削除しました")
+    : (window.APP_LANG === "en" ? "No zero-RPM records" : "RPM 0 の記録はありません"));
+});
 
 // フィルタリセットボタン
 document.getElementById("historyResetBtn").addEventListener("click", () => {
@@ -4564,7 +4617,7 @@ renderHistory();
 window.toggleFavorite = toggleFavorite;
 
 window.deleteHistory = (i) => {
-if (confirm("この履歴を削除しますか？")) {
+if (confirm(window.APP_LANG === "en" ? "Delete this record?" : "この履歴を削除しますか？")) {
 const removed = state.history.splice(i, 1)[0];
 // お気に入りからも削除
 if (removed && removed.id) {
@@ -5108,6 +5161,139 @@ window.I18N = {
     contactDelay:"Handled by one person, so replies come whenever there's time."
   }
 };
+
+window.EN_MAP = {
+  "絞り込み・並び替え（押すと開きます）": "Filter and sort (tap to open)",
+  "RPM 0 を削除": "Delete RPM 0",
+  "計測履歴": "Saved runs",
+  "保存した計測の一覧です。マシン設定の「ロック瞬間メモ」とは別です。": "Saved measurements. Separate from the lock memo in machine setup.",
+  "お気に入りのみ": "Favorites only",
+  "リセット": "Reset",
+  "検索": "Search",
+  "閉じる": "Close",
+  "並び替え": "Sort",
+  "新しい順": "Newest",
+  "RPM高い順": "Highest RPM",
+  "速度高い順": "Highest speed",
+  "古い順": "Oldest",
+  "行を2つ選ぶと差分表示": "Pick two rows to compare",
+  "件数": "Count",
+  "最高RPM": "Best RPM",
+  "最高速度": "Best speed",
+  "前回比RPM": "RPM delta",
+  "日付": "Date",
+  "名前": "Name",
+  "モーター": "Motor",
+  "速度": "Speed",
+  "電圧": "Voltage",
+  "ギヤ比": "Gear",
+  "タイヤ径": "Tire",
+  "すべて": "All",
+  "削除": "Delete",
+  "保存": "Save",
+  "キャンセル": "Cancel",
+  "保存する": "Save",
+  "名前を入力": "Enter a name",
+  "モーター種類": "Motor type",
+  "選択なし": "None",
+  "両軸": "Dual shaft",
+  "片軸": "Single shaft",
+  "測定設定": "Measure setup",
+  "使い方": "Guide",
+  "設定リセット": "Reset setup",
+  "外観": "Look",
+  "言語": "Language",
+  "ダーク": "Dark",
+  "シャープ": "Sharp",
+  "丸み": "Round",
+  "シンプル": "Plain",
+  "羅列": "List",
+  "ノイズ閾値（TH）": "Noise threshold (TH)",
+  "RPM校正係数": "RPM calibration",
+  "負荷適用値を並べて表示": "Show raw values beside load",
+  "安定してから MAX / MIN / AVG を数える": "Count MAX / MIN / AVG after stable",
+  "マシン設定": "Machine",
+  "ロック瞬間メモ": "Lock memo",
+  "反映して閉じる": "Apply and close",
+  "この設定を登録": "Save this setup",
+  "名前の聞き方": "When the name is asked",
+  "設定のお気に入り": "Setup favorites",
+  "走行負荷 (%)": "Running load (%)",
+  "駆動": "Shaft",
+  "シャーシ": "Chassis",
+  "指定なし": "None",
+  "共通（指定なし）": "Common (none)",
+  "未選択": "Not selected",
+  "逆算電卓": "Reverse calc",
+  "求めたいもの": "Solve for",
+  "必要なタイヤ径 mm": "Needed tire mm",
+  "必要なモーター回転数 rpm": "Needed motor rpm",
+  "必要なギヤ比": "Needed gear",
+  "モーター回転数 (rpm)": "Motor RPM",
+  "速度 (km/h)": "Speed (km/h)",
+  "タイヤ径 (mm)": "Tire (mm)",
+  "目標回転": "Target RPM",
+  "設定する": "Set",
+  "解除": "Clear",
+  "目標 (rpm)": "Target (rpm)",
+  "たたむ": "Fold",
+  "開く": "Open",
+  "スペクトラム": "Spectrum",
+  "マイク": "Mic",
+  "集音フィルタ (RPM範囲)": "Pickup window (RPM)",
+  "電圧別比較表": "Voltage map",
+  "小数2位": "2 decimals",
+  "比較表条件": "Chart conditions",
+  "履歴はありません": "No records",
+  "この履歴を削除しますか？": "Delete this record?",
+  "ロックした瞬間のメモです。トップの「履歴」とは別です。トップの履歴は、保存した計測の一覧です。": "This is a memo of lock moments. It is not the saved-run list on the top screen."
+};
+function applyStaticLang(lang) {
+  const en = lang === "en";
+  const jaHelp = document.getElementById("helpJa");
+  const enHelp = document.getElementById("helpEn");
+  if (jaHelp) jaHelp.hidden = en;
+  if (enHelp) enHelp.hidden = !en;
+  const map = window.EN_MAP;
+  const keys = Object.keys(map).sort(function(a, b) { return b.length - a.length; });
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(function(node) {
+    if (node.parentElement && node.parentElement.closest && node.parentElement.closest("#helpJa, #helpEn, script, style")) return;
+    if (!node.__ja) node.__ja = node.nodeValue;
+    const src = node.__ja;
+    if (!en) { node.nodeValue = src; return; }
+    let out = src;
+    keys.forEach(function(k) {
+      if (out.indexOf(k) >= 0) out = out.split(k).join(map[k]);
+    });
+    node.nodeValue = out;
+  });
+  document.querySelectorAll("input[placeholder], textarea[placeholder]").forEach(function(el) {
+    if (!el.dataset.jaPh) el.dataset.jaPh = el.getAttribute("placeholder") || "";
+    const src = el.dataset.jaPh;
+    if (!en) { el.setAttribute("placeholder", src); return; }
+    let out = src;
+    keys.forEach(function(k) { if (out.indexOf(k) >= 0) out = out.split(k).join(map[k]); });
+    el.setAttribute("placeholder", out);
+  });
+  document.querySelectorAll("option").forEach(function(el) {
+    if (!el.dataset.ja) el.dataset.ja = el.textContent;
+    const src = el.dataset.ja;
+    if (!en) { el.textContent = src; return; }
+    let out = src;
+    keys.forEach(function(k) { if (out.indexOf(k) >= 0) out = out.split(k).join(map[k]); });
+    el.textContent = out;
+  });
+  const fold = document.getElementById("histFoldBtn");
+  if (fold) {
+    const open = document.getElementById("histFoldBody") && document.getElementById("histFoldBody").classList.contains("open");
+    fold.textContent = (en ? "Filter and sort (tap to open)" : "絞り込み・並び替え（押すと開きます）") + (open ? " ▾" : " ▸");
+  }
+  if (typeof renderHistory === "function") renderHistory();
+  if (typeof window.renderLockSnaps === "function") window.renderLockSnaps();
+}
 window.APP_LANG = localStorage.getItem("rpmLang") === "en" ? "en" : "ja";
 function tt(key) {
   const pack = (window.I18N[window.APP_LANG] || window.I18N.ja);
@@ -5139,6 +5325,7 @@ function applyLang(lang) {
     b.classList.toggle("is-on", b.getAttribute("data-lang") === lang);
   });
   if (typeof refreshMachineStatusUI === "function") refreshMachineStatusUI();
+  if (typeof applyStaticLang === "function") applyStaticLang(lang);
 }
 document.querySelectorAll(".lang-pick").forEach(function(b) {
   b.addEventListener("click", function() { applyLang(b.getAttribute("data-lang")); });
@@ -5213,7 +5400,6 @@ applyLang(window.APP_LANG);
 })();
 
 </script>
-
 
 
 </body></html>
