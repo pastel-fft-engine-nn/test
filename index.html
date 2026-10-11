@@ -2691,7 +2691,8 @@ function paintSpeedAvg() {
   if (rpmNote) rpmNote.textContent = sec;
   const rpmSet = document.getElementById("rpmAvgSet");
   const speedSet = document.getElementById("speedAvgSet");
-  if (rpmSet) rpmSet.textContent = r == null ? "--" : Math.round(r).toLocaleString();
+  const gearNow = parseFloat(String((gearOptions && gearOptions[UI.gearRange.value]) || "3.7").split(":")[0]) || 3.7;
+  if (rpmSet) rpmSet.textContent = avgSpeedMs < 1000 ? "--" : String(Math.round((avgRpmStockSum / avgSpeedMs) / gearNow));
   if (speedSet) speedSet.textContent = v == null ? "--" : v.toFixed(2);
   const rs = document.getElementById("rpmAvgStock");
   const ss = document.getElementById("speedAvgStock");
@@ -3243,7 +3244,9 @@ if (ready) addSpeedSample(speed, rpmNum, gate.dt);
 
 // 表示（負荷適用後 = メイン表示）
 UI.rpmNow.textContent = dispNow;
-const rpmSet = document.getElementById("rpmNowSet"); if (rpmSet) rpmSet.textContent = dispNow;
+const gearNow = parseFloat(String((gearOptions && gearOptions[UI.gearRange.value]) || "3.7").split(":")[0]) || 3.7;
+const rpmSet = document.getElementById("rpmNowSet");
+if (rpmSet) rpmSet.textContent = dispNow === "--" ? "--" : String(Math.round(rawRpm / gearNow));
 const rpmStock = document.getElementById("rpmNowStock");
 if (rpmStock) rpmStock.textContent = dispNow === "--" ? "--" : String(Math.round(rawRpm));
 applyRpmHit();
@@ -3760,6 +3763,9 @@ function applyLoadToShown() {
     UI.speedNow.textContent = disp === "--" ? "--" : currentSpeed.toFixed(2);
     const rpmStock = document.getElementById("rpmNowStock");
     const speedStock = document.getElementById("speedNowStock");
+    const gearNow = parseFloat(String((gearOptions && gearOptions[UI.gearRange.value]) || "3.7").split(":")[0]) || 3.7;
+    const rpmSet = document.getElementById("rpmNowSet");
+    if (rpmSet) rpmSet.textContent = String(Math.round(currentRpmRaw / gearNow));
     if (rpmStock) rpmStock.textContent = String(Math.round(currentRpmRaw));
     if (speedStock) speedStock.textContent = (currentRpmRaw / 3.7 * 22.5 * Math.PI * 60 / 1e6).toFixed(2);
     UI.rpmNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + Math.round(currentRpmRaw)) : "";
