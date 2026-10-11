@@ -52,8 +52,8 @@ body:not(.dark-mode) {
 
 .app-shell {
   width: min(560px, 100%);
-  margin: -10px auto 0;
-  padding: 0 12px calc(14px + var(--safe-b));
+  margin: 0 auto;
+  padding: max(8px, env(safe-area-inset-top, 0px)) 12px calc(14px + var(--safe-b));
 }
 
 .card {
@@ -771,8 +771,8 @@ body.theme-classic.dark-mode {
 body.theme-classic .app-shell {
   width: min(560px, 100%);
   max-width: 560px;
-  margin: -10px auto 0;
-  padding: 0 8px 8px;
+  margin: 0 auto;
+  padding: max(8px, env(safe-area-inset-top, 0px)) 12px calc(14px + var(--safe-b));
 }
 body.theme-classic .card {
   background: var(--card-bg);
@@ -1024,7 +1024,7 @@ body.theme-classic .audio-bar { width: 3px; background: var(--accent-blue); }
 body.theme-classic .header-right-audio { font-size: 0.7rem; letter-spacing: normal; }
 
 /* 丸み・シンプルは色と角丸だけ。縦横の比率はシャープに合わせる */
-body.theme-classic .app-shell { padding: 0 12px calc(14px + var(--safe-b)); margin-top: -10px; }
+body.theme-classic .app-shell { padding: max(8px, env(safe-area-inset-top, 0px)) 12px calc(14px + var(--safe-b)); margin-top: 0; }
 body.theme-classic .card { padding: 0 12px 12px; margin-bottom: 10px; }
 body.theme-classic .app-shell > .card:first-child { margin-top: 0; padding-top: 0; }
 body.theme-classic .card-header { margin-bottom: 8px; }
@@ -1635,6 +1635,42 @@ body.theme-classic .onboard-card { border-radius: 12px 12px 0 0; border-top: non
 body.theme-classic .help-acc { border: none; border-radius: 8px; background: var(--card-bg, #fff); }
 .privacy-box { font-size: 12px; line-height: 1.55; color: var(--mute); margin-top: 12px; }
 
+
+/* ========== THEME: LIST (羅列) ========== */
+body.theme-list .card,
+body.theme-list .wave-container,
+body.theme-list .rpm-limit-section,
+body.theme-list .realtime-stats,
+body.theme-list .stat-block {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+body.theme-list .card { padding: 0; margin-bottom: 8px; }
+body.theme-list .brand-sub { display: none; }
+body.theme-list .realtime-stats {
+  display: block;
+  width: 100%;
+  margin: 0 0 8px;
+}
+body.theme-list .stat-stack { display: block; border: 0; }
+body.theme-list .stat-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 2px 0;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+}
+body.theme-list .stat-value { font-size: 22px !important; text-align: right; }
+body.theme-list .stat-current .stat-value { font-size: 28px !important; }
+body.theme-list .stat-label { margin: 0; }
+body.theme-list .stat-avg { margin: 0 0 6px; text-align: right; }
+body.theme-list .primary-btn,
+body.theme-list .secondary-btn { border-radius: 0; }
+body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top: 8px; }
 </style>
 </head>
 <body class="load-zero theme-plain">
@@ -1930,6 +1966,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <button type="button" class="secondary-btn gray theme-pick" data-theme="classic" data-i18n="themeClassic">丸み</button>
 <button type="button" class="secondary-btn gray theme-pick" data-theme="flare">FLARE</button>
 <button type="button" class="secondary-btn gray theme-pick is-on" data-theme="plain" data-i18n="themePlain">シンプル</button>
+<button type="button" class="secondary-btn gray theme-pick" data-theme="list">羅列</button>
 </div>
 </div>
 <div class="pref-group" id="langGroup">
@@ -2084,6 +2121,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <li>丸み … シャープと同じ大きさで、角だけ丸い</li>
 <li>FLARE … 別のデザインの画面。測る機能は同じ</li>
 <li>シンプル … 白、黒、グレーだけ。グラフの中だけ暗い</li>
+<li>羅列 … 枠を外して、スペクトラムと数字とボタンだけを並べます。比較表はそのままです</li>
 </ul>
 <h4>言語</h4>
 <p>押すと日本語と English が出ます。ボタンの言葉が切り替わります。測定の数字や、この説明文の本文は日本語のままです。</p>
@@ -4780,15 +4818,16 @@ function publishToMemory(showAlert) {
 (function initUiTheme() {
   const btn = document.getElementById("uiThemeToggleBtn");
   const meta = document.querySelector('meta[name="theme-color"]');
-  const ORDER = ["sharp", "classic", "flare", "plain"];
-  const LABEL = { sharp: "外観: シャープ", classic: "外観: 現行（丸み）", flare: "外観: FLARE", plain: "外観: シンプル" };
-  const COLOR = { sharp: "#101114", classic: "#0d0d0f", flare: "#0A0A0A", plain: "#f7f7f5" };
+  const ORDER = ["sharp", "classic", "flare", "plain", "list"];
+  const LABEL = { sharp: "外観: シャープ", classic: "外観: 現行（丸み）", flare: "外観: FLARE", plain: "外観: シンプル", list: "外観: 羅列" };
+  const COLOR = { sharp: "#101114", classic: "#0d0d0f", flare: "#0A0A0A", plain: "#f7f7f5", list: "#101114" };
   function apply(theme) {
     if (ORDER.indexOf(theme) < 0) theme = "classic";
     document.body.classList.toggle("theme-sharp", theme === "sharp");
     document.body.classList.toggle("theme-classic", theme === "classic");
     document.body.classList.toggle("theme-flare", theme === "flare");
     document.body.classList.toggle("theme-plain", theme === "plain");
+    document.body.classList.toggle("theme-list", theme === "list");
     localStorage.setItem("rpmUiTheme", theme);
     localStorage.setItem("rpmUiThemeV2", theme);
     document.querySelectorAll(".theme-pick").forEach(function(b) {
@@ -4809,7 +4848,7 @@ function publishToMemory(showAlert) {
   if (btn) btn.addEventListener("click", function() {
     const cur = document.body.classList.contains("theme-plain") ? "plain"
       : document.body.classList.contains("theme-flare") ? "flare"
-      : document.body.classList.contains("theme-classic") ? "classic" : "sharp";
+      : document.body.classList.contains("theme-classic") ? "classic" : document.body.classList.contains("theme-list") ? "list" : "sharp";
     apply(ORDER[(ORDER.indexOf(cur) + 1) % ORDER.length]);
   });
   const lookBtn = document.getElementById("lookToggleBtn");
