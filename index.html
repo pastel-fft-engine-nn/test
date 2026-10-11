@@ -407,11 +407,22 @@ body.theme-flare:not(.dark-mode) .hist-card:nth-child(4n+1) { background: #fff; 
 body.theme-flare:not(.dark-mode) .hist-card:nth-child(4n+2) { background: #fff1e8; }
 body.theme-flare:not(.dark-mode) .hist-card:nth-child(4n+3) { background: #faf9f7; }
 body.theme-flare:not(.dark-mode) .hist-card:nth-child(4n) { background: #f3eee8; }
-.hist-line { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(40px, 0.7fr) minmax(92px, 1.05fr) minmax(78px, 0.95fr); column-gap: 12px; row-gap: 1px; align-items: center; }
-.hist-line + .hist-line { margin-top: 2px; }
+.hist-stack { display: flex; flex-direction: column; gap: 2px; }
+.hist-stack .hist-avg { font-size: 10px; color: var(--mute); font-weight: 700; }
+.hist-fold-btn {
+  width: 100%; text-align: left; border: 1px solid var(--line); background: transparent;
+  color: var(--ink); font-family: var(--font); font-size: 12px; font-weight: 800;
+  padding: 10px; margin: 0 0 8px; cursor: pointer;
+}
+.hist-fold-body { display: none; }
+.hist-fold-body.open { display: block; }
+.hist-line { display: grid; grid-template-columns: 0.8fr 1.2fr 1.2fr; column-gap: 8px; align-items: center; }
+.hist-line + .hist-line { margin-top: 4px; }
+.hist-body { display: grid; grid-template-columns: minmax(78px, 0.85fr) 2.3fr; gap: 4px 8px; align-items: start; }
+.hist-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .hist-top { display: flex; align-items: center; gap: 6px; min-height: 16px; }
 .hist-k { display: block; font-size: 8px; line-height: 1.1; letter-spacing: 0.04em; color: var(--mute); font-weight: 700; }
-.hist-v { display: block; font-family: var(--num); font-size: 11px; font-weight: 700; line-height: 1.15; white-space: nowrap; }
+.hist-v { display: block; font-family: var(--num); font-size: 11px; font-weight: 700; line-height: 1.2; white-space: normal; overflow-wrap: anywhere; }
 .hist-name .hist-v { font-family: var(--font); font-size: 12px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; white-space: normal; }
 .hist-card .delete-btn { padding: 1px 5px; font-size: 9px; line-height: 1.4; }
 .hist-card .hist-check { width: 14px; height: 14px; margin: 0; }
@@ -1963,9 +1974,9 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <h4>マイクの棒と READY</h4>
 <p>マイクが入っているかの印です。READY はまだ測っていない状態です。計測を始めると MEASURING — 解析中 に変わります。</p>
 <h4>MOTOR RPM</h4>
-<p>モーター回転の推定です。CURRENT が今の値、そのすぐ下の AVG が安定しているあいだの平均です。MAX がこの計測でいちばん高かった値、MIN がいちばん低かった値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセットを押してください。枠を押すと目標を入れられます。</p>
+<p>モーター回転の推定です。CURRENT が今の値、そのすぐ下の AVG が安定しているあいだの平均です。MAX がこの計測でいちばん高かった値、MIN がいちばん低かった値です。設定で「安定してから数える」がオンなら、MAX・MIN・AVG は 8000rpm 以上が 0.6秒続いたあとからです。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセットを押してください。枠を押すと目標を入れられます。</p>
 <h4>SPEED (km/h)</h4>
-<p>その回転から計算した机上の速度です。CURRENT のすぐ下の AVG が、同じ区間の平均速度です。TOP がこの計測の最高、MIN が最低です。実走の速度計ではありません。</p>
+<p>その回転から計算した机上の速度です。CURRENT のすぐ下の AVG が、同じ区間の平均速度です。TOP がこの計測の最高、MIN が最低です。安定してから数えるがオンなら、TOP・MIN・AVG も立ち上がりを入れません。実走の速度計ではありません。</p>
 <h4>状態の文字</h4>
 <p>数字の下の READY や MEASURING は、今が待機か計測中かを示す一行です。</p>
 <p class="onboard-en">Top of the screen: the spectrum is the live sound, MOTOR RPM is the estimate (current / max / min), SPEED is a desk calculation, not a track speed.</p>
@@ -2007,6 +2018,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <button type="button">平均</button>
 <div class="help-body">
 <p>CURRENT のすぐ下にある AVG は、この計測で安定して回っていたあいだの平均です。コースを走った実平均ではありません。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセットを押してください。</p>
+<p>設定の「安定してから MAX / MIN / AVG を数える」がオンのときは、CURRENT だけすぐ動きます。MAX・MIN・AVG は、8000rpm 以上が 0.6秒続いたあとから記録します。立ち上がりの低い数字は、トップにもミニマムにも入りません。オフにすると、数字が出た瞬間から MAX・MIN を記録します。選んだ状態は残ります。最初はオンです。</p>
 <ul>
 <li>8000rpm 未満は入れない。電源を入れた直後の低い回転を外すため</li>
 <li>急に上がっているあいだも入れない。計測開始が先でも、電源が先でも、立ち上がりは両方とも外す</li>
@@ -2015,7 +2027,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <li>ロックすると止まる。停止しても値は残るので、そのあと保存できる</li>
 <li>次の計測開始とリセットで消える</li>
 </ul>
-<p>右の秒数は、平均に入った時間です。履歴では速度と回転の横に avg として残ります。</p>
+<p>履歴では、速度のすぐ上に平均速度、RPM のすぐ上に平均RPMが残ります。単位は km/hA と RPMA です。</p>
 <p class="onboard-en">AVG is the stable part of this run only. Spin-up and gaps are left out. It is not a lap average.</p>
 </div>
 </div>
@@ -2079,6 +2091,7 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <p>暗い画面と明るい画面を切り替えます。オンのときはボタンに枠が付きます。最初はオンです。</p>
 <h4>その下</h4>
 <ul>
+<li>安定してから MAX / MIN / AVG を数える … オンだと、8000rpm以上が0.6秒続くまで MAX・MIN・AVG を記録しません。CURRENT はすぐ動きます。オフだと、数字が出た瞬間から MAX・MIN を記録します。最初はオンです</li>
 <li>負荷適用値を並べて表示 … オンだと、負荷を掛けた数字の下に、掛ける前の生の数字も出ます</li>
 <li>設定リセット … ノイズ閾値を 20、校正を 1.00、負荷を 0% に戻します。履歴、外観、目標は消しません</li>
 <li>閉じる … 設定をしまいます</li>
@@ -2120,7 +2133,9 @@ body.theme-classic .help-acc { border: none; border-radius: 8px; background: var
 <button type="button">履歴の画面</button>
 <div class="help-body">
 <p>保存した行の一覧です。この端末の中だけに残ります。ほかの電話やクラウドとは共有されません。</p>
+<p>右の3段です。1段目がモーター、RPM、速さ。2段目がギヤ、平均RPM（RPMA）、平均速度（km/hA）。3段目がタイヤ、日付です。左のチェック、削除、名前、電圧はそのままです。平均が無い古い記録は — です。</p>
 <ul>
+<li>絞り込み・並び替え … 最初は閉じています。押すと、日付・名前・モーターなどのプルダウンと並び替えが開きます。もう一度で閉じます</li>
 <li>お気に入りの付け方 … 名前を押します。名前の色が変わります。もう一度押すと外れます</li>
 <li>お気に入りだけ見る … 「お気に入りのみ」を押します。もう一度押すと全部に戻ります</li>
 <li>削除 … その行の「削除」を押し、確認すると消えます。戻せません。お気に入りも一緒に外れます</li>
@@ -2453,6 +2468,8 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <div class="modal-backdrop" id="historyModalBackdrop">
 <div class="modal" style="max-width:95vw;width:95vw;">
 <div class="modal-header"><div class="modal-title">計測履歴</div><button class="modal-close" id="historyCloseTop">×</button></div>
+<button type="button" class="hist-fold-btn" id="histFoldBtn">絞り込み・並び替え ▸</button>
+<div class="hist-fold-body" id="histFoldBody">
 <div class="filter-grid">
 <div class="filter-item"><label>日付</label><select id="filterDate"><option value="">すべて</option></select></div>
 <div class="filter-item"><label>名前</label><select id="filterName"><option value="">すべて</option></select></div>
@@ -2469,12 +2486,6 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <button class="secondary-btn gray" id="historyCloseBtn" style="width:100%;min-height:44px;padding:10px 4px;">閉じる</button>
 </div>
 </div>
-<div class="history-summary" id="historySummary">
-<div class="hs-item"><div class="hs-label">件数</div><div class="hs-value" id="hsCount">0</div></div>
-<div class="hs-item"><div class="hs-label">最高RPM</div><div class="hs-value" id="hsBestRpm">—</div></div>
-<div class="hs-item"><div class="hs-label">最高速度</div><div class="hs-value" id="hsBestSpeed">—</div></div>
-<div class="hs-item"><div class="hs-label">前回比RPM</div><div class="hs-value" id="hsDelta">—</div></div>
-</div>
 <div class="history-toolbar">
 <label>並び替え
 <select id="historySortSelect">
@@ -2483,6 +2494,13 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 </select>
 </label>
 <span style="color:var(--mute);font-size:11px;">行を2つ選ぶと差分表示</span>
+</div>
+</div>
+<div class="history-summary" id="historySummary">
+<div class="hs-item"><div class="hs-label">件数</div><div class="hs-value" id="hsCount">0</div></div>
+<div class="hs-item"><div class="hs-label">最高RPM</div><div class="hs-value" id="hsBestRpm">—</div></div>
+<div class="hs-item"><div class="hs-label">最高速度</div><div class="hs-value" id="hsBestSpeed">—</div></div>
+<div class="hs-item"><div class="hs-label">前回比RPM</div><div class="hs-value" id="hsDelta">—</div></div>
 </div>
 <div class="history-diff-panel" id="historyDiffPanel"></div>
 <div class="history-table-wrapper" id="historyList"></div>
@@ -4414,15 +4432,15 @@ const isFav = h.id && isFavorite(h.id);
 const favClass = isFav ? "fav-name is-fav" : "fav-name";
 const loadBadge = h.load ? `<span class="load-badge">${h.load}</span>` : "";
 let rpmDisplay = histNumUnit(h.rpm, "RPM");
-if (h.rpmAvg) rpmDisplay += `<span style="color:var(--mute);font-size:8px;"> avg${h.rpmAvg}</span>`;
 if (h.load && h.rpmRaw) {
 rpmDisplay = `${histNumUnit(h.rpm, "RPM")}<span style="color:var(--mute);font-size:8px;"> 生${h.rpmRaw}</span>`;
 }
 let speedDisplay = histNumUnit(h.speed, "km/h");
-if (h.speedAvg) speedDisplay += `<span style="color:var(--mute);font-size:8px;"> avg${h.speedAvg}</span>`;
 if (h.load && h.speedRaw) {
 speedDisplay = `${histNumUnit(h.speed, "km/h")}<span style="color:var(--mute);font-size:8px;"> 生${h.speedRaw}</span>`;
 }
+const avgRpmDisplay = histNumUnit(h.rpmAvg, "RPMA");
+const avgSpeedDisplay = h.speedAvg ? histNumUnit(Number(h.speedAvg).toFixed(2), "km/hA") : histNumUnit("", "km/hA");
 const isBest = bestRpm && Number(h.rpm) === bestRpm;
 const checked = window._histSelected && window._histSelected[h.id] ? "checked" : "";
 const star = isBest ? " ★" : "";
@@ -4432,17 +4450,28 @@ card.innerHTML = `
     <input type="checkbox" class="hist-check" data-id="${h.id || ""}" ${checked} onclick="toggleHistSelect('${h.id || ""}')">
     <button class="delete-btn" onclick="deleteHistory(${state.history.indexOf(h)})">削除</button>
   </div>
-  <div class="hist-line">
-    <div class="hist-cell hist-name"><span class="hist-v"><span class="${favClass}" onclick="toggleFavorite('${h.id}')">${h.name}</span>${star}${loadBadge}</span></div>
-    ${histCell(histMotorShort(h.motor))}
-    ${histCell(speedDisplay)}
-    ${histCell(rpmDisplay)}
-  </div>
-  <div class="hist-line">
-    ${histCell(histNumUnit(h.voltage, "V"))}
-    ${histCell(histGearLabel(h.gear))}
-    ${histCell(histNumUnit(h.tire, "mm"))}
-    ${histCell(histDateOnly(h))}
+  <div class="hist-body">
+    <div class="hist-left">
+      <div class="hist-cell hist-name"><span class="hist-v"><span class="${favClass}" onclick="toggleFavorite('${h.id}')">${h.name}</span>${star}${loadBadge}</span></div>
+      ${histCell(histNumUnit(h.voltage, "V"))}
+    </div>
+    <div class="hist-rows">
+      <div class="hist-line">
+        ${histCell(histMotorShort(h.motor))}
+        ${histCell(rpmDisplay)}
+        ${histCell(speedDisplay)}
+      </div>
+      <div class="hist-line">
+        ${histCell(histGearLabel(h.gear))}
+        ${histCell(avgRpmDisplay)}
+        ${histCell(avgSpeedDisplay)}
+      </div>
+      <div class="hist-line">
+        ${histCell(histNumUnit(h.tire, "mm"))}
+        ${histCell(histDateOnly(h))}
+        ${histCell("")}
+      </div>
+    </div>
   </div>`;
 UI.historyList.appendChild(card);
 });
@@ -4454,6 +4483,15 @@ renderHistory();
 });
 const historySortSelect = document.getElementById("historySortSelect");
 if (historySortSelect) historySortSelect.addEventListener("change", () => renderHistory());
+(function initHistFold() {
+  const btn = document.getElementById("histFoldBtn");
+  const body = document.getElementById("histFoldBody");
+  if (!btn || !body) return;
+  btn.addEventListener("click", function() {
+    const open = body.classList.toggle("open");
+    btn.textContent = open ? "絞り込み・並び替え ▾" : "絞り込み・並び替え ▸";
+  });
+})();
 
 // フィルタリセットボタン
 document.getElementById("historyResetBtn").addEventListener("click", () => {
