@@ -212,11 +212,13 @@ body.from-memory .wave-container { padding-top: 8px; padding-bottom: 8px; }
 
 .realtime-center {
   text-align: left;
-  margin: 8px 0 10px;
+  margin: 6px 0 8px;
   font-size: 11px;
   color: var(--mute);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
 }
+.status-sub { display: block; margin-top: 2px; font-size: 10px; letter-spacing: 0.01em; }
 
 .header-right-audio {
   display: flex; align-items: center; gap: 6px;
@@ -704,14 +706,14 @@ body:not(.load-zero) .stat-value-sub { display: block; min-height: 0.9em; }
 }
 .cmp-summary .emph { font-weight: 800; color: var(--ink); }
 
-.stat-current .stat-value { font-size: 52.2px; }
-.stat-side .stat-value { font-size: 20px; line-height: 1; }
-.stat-block.stat-current { display: flex; flex-direction: column; justify-content: center; padding: 10px 8px; min-height: 128px; }
+.stat-current .stat-value { font-size: 47px; }
+.stat-side .stat-value { font-size: 18px; line-height: 1; }
+.stat-block.stat-current { display: flex; flex-direction: column; justify-content: center; padding: 8px 8px; min-height: 115px; }
 .stat-block.stat-side {
   width: 100%;
-  height: 64px;
-  min-height: 64px;
-  max-height: 64px;
+  height: 58px;
+  min-height: 58px;
+  max-height: 58px;
   padding: 6px 8px;
   display: flex;
   flex-direction: column;
@@ -914,7 +916,7 @@ body.theme-classic .stat-value {
   color: #e891b0;
   letter-spacing: -0.02em;
 }
-body.theme-classic .stat-current .stat-value { font-size: 52.2px !important; }
+body.theme-classic .stat-current .stat-value { font-size: 47px !important; }
 body.theme-classic .stat-side .stat-value { font-size: 1.20rem !important; line-height: 1.1; }
 body.theme-classic .stat-value-sub { font-size: 0.85rem; color: var(--text-sub); }
 body.theme-classic .stat-side .stat-value-sub { font-size: 0.68rem; margin-top: 0; }
@@ -1043,14 +1045,14 @@ body.theme-classic .realtime-stats { grid-template-columns: 1.58865fr 0.96135fr;
 body.theme-classic .stat-stack { display: grid; grid-template-rows: 64px 64px; gap: 0; border-left: none; }
 body.theme-classic .stat-stack .stat-block + .stat-block { border-top: none; }
 body.theme-classic .stat-block { padding: 8px 10px; }
-body.theme-classic .stat-block.stat-current { padding: 10px 8px; min-height: 128px; height: auto; justify-content: center; }
-body.theme-classic .stat-block.stat-side { height: 64px; min-height: 64px; max-height: 64px; padding: 6px 8px; width: 100%; }
+body.theme-classic .stat-block.stat-current { padding: 8px 8px; min-height: 115px; height: auto; justify-content: center; }
+body.theme-classic .stat-block.stat-side { height: 58px; min-height: 58px; max-height: 58px; padding: 5px 8px; width: 100%; }
 body.theme-classic .stat-label,
 body.theme-classic .stat-current .stat-label,
 body.theme-classic .stat-side .stat-label { font-size: 9px; letter-spacing: 0.22em; font-weight: 700; margin-bottom: 2px; }
 body.theme-classic .stat-value { font-size: 22px; letter-spacing: -0.03em; font-weight: 800; }
 body.theme-classic .stat-current .stat-value { font-size: 52.2px !important; }
-body.theme-classic .stat-side .stat-value { font-size: 20px !important; line-height: 1; }
+body.theme-classic .stat-side .stat-value { font-size: 18px !important; line-height: 1; }
 body.theme-classic .stat-value-sub,
 body.theme-classic .stat-side .stat-value-sub { font-size: 10px; margin-top: 2px; }
 body.theme-classic .realtime-center { text-align: left; margin: 8px 0 10px; font-size: 11px; letter-spacing: 0.16em; }
@@ -1771,7 +1773,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 
 </div>
 </div>
-<div class="realtime-center" id="statusLine">READY — 計測待機中</div>
+<div class="realtime-center" id="statusLine">計測待機中<span class="status-sub">マシン　未設定</span></div>
 
 <div class="realtime-buttons">
 <div class="realtime-btn-row">
@@ -1950,7 +1952,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <div class="modal-backdrop" id="settingsModalBackdrop">
 <div class="modal">
 <div class="modal-header"><div class="modal-title" data-i18n="settingsTitle">測定設定</div><button class="modal-close" id="settingsCloseTop">×</button></div>
-<p class="help-note" data-i18n="settingsLead">回転は音からの推定、速度は机上の理論値です。公式計測器の代替ではありません。</p>
+<p class="speed-basis" id="settingsLead" hidden="">回転は音からの推定、速度は机上の理論値です。公式計測器の代替ではありません。</p>
 <div class="settings-row">
 <div class="setting-item"><div class="setting-label"><span>ノイズ閾値（TH）</span><span class="setting-value" id="noiseLabel">20</span></div><input type="range" id="noiseRange" min="0" max="100" step="1" value="20"></div>
 <div class="setting-item"><div class="setting-label"><span>RPM校正係数</span><span class="setting-value" id="rpmCalLabel">1.00</span></div><input type="range" id="rpmCalRange" min="0.5" max="1.5" step="0.01" value="1.00"></div>
@@ -1961,9 +1963,9 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 </div>
 <div class="setting-item">
 <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
-<input type="checkbox" id="stableGate" checked="" style="width:18px;height:18px;"><span>安定してから MAX / MIN / AVG を数える</span>
+<input type="checkbox" id="stableGate" checked="" style="width:18px;height:18px;"><span>安定してから MAX / MIN / AVG を数える</span><button type="button" class="qmark" id="stableGateBtn" aria-label="安定後の説明">?</button>
 </label>
-<p class="hint" style="margin:4px 0 0;">CURRENT はすぐ動きます。8000rpm以上が0.6秒続いたら、そこからトップ・ミニマム・平均を記録します。オフにすると、数字が出た瞬間から記録します。</p>
+<p class="speed-basis" id="stableGateNote" hidden="">CURRENT はすぐ動きます。8000rpm以上が0.6秒続いたら、そこからトップ・ミニマム・平均を記録します。オフにすると、数字が出た瞬間から記録します。</p>
 </div>
 <div class="pref-board">
 <div class="pref-group" id="lookGroup">
@@ -2388,8 +2390,8 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="targetModalBackdrop">
 <div class="modal">
-<div class="modal-header"><div class="modal-title">目標回転</div><button class="modal-close" id="targetCloseTop" type="button">×</button></div>
-<p class="help-note">MAX の数字がこの値以上になると、赤く強調されます。</p>
+<div class="modal-header"><div class="modal-title">目標回転<button type="button" class="qmark" id="targetNoteBtn" aria-label="目標の説明">?</button></div><button class="modal-close" id="targetCloseTop" type="button">×</button></div>
+<p class="speed-basis" id="targetNote" hidden="">MAX の数字がこの値以上になると、赤く強調されます。</p>
 <div class="input-row">
 <label for="rpmTargetInput">目標 (rpm)</label>
 <input type="number" id="rpmTargetInput" min="0" max="120000" step="100" inputmode="numeric" placeholder="例: 30000">
@@ -2403,7 +2405,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="machineModalBackdrop">
 <div class="modal">
-<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">マシン設定</div><div class="modal-title-note">計測中にロックを押した際に出現する比較表に反映されます。机上での計算なので、実際と差異があります。</div></div><button class="modal-close" id="machineCloseTop">×</button></div>
+<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">マシン設定<button type="button" class="qmark" id="machineNoteBtn" aria-label="マシン設定の説明">?</button></div><div class="speed-basis" id="machineNote" hidden="">計測中にロックを押した際に出現する比較表に反映されます。机上での計算なので、実際と差異があります。</div></div><button class="modal-close" id="machineCloseTop">×</button></div>
 <div class="machine-grid">
 <div class="machine-item">
 <div class="setting-label"><span>駆動</span><span class="setting-value" id="shaftLabel">指定なし</span></div>
@@ -2414,11 +2416,11 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 </div>
 </div>
 <div class="machine-item">
-<div class="setting-label"><span>シャーシ</span><span class="setting-value" id="chassisLabel">共通（指定なし）</span></div>
+<div class="setting-label"><span>シャーシ<button type="button" class="qmark" id="chassisHintBtn" aria-label="シャーシの説明">?</button></span><span class="setting-value" id="chassisLabel">共通（指定なし）</span></div>
 <div class="field-locked">
 <select class="cond-select" id="chassisSelect" disabled=""><option value="common" selected="">共通（指定なし）</option><option value="me">ME（両軸）</option><option value="ma">MA（両軸）</option><option value="ms">MS（両軸）</option><option value="fma">FM-A（前・片軸）</option><option value="vz">VZ（後・片軸）</option><option value="ar">AR（後・片軸）</option><option value="s2">スーパーII（後・片軸）</option><option value="vs">VS（後・片軸）</option><option value="sxx">スーパーXX（後・片軸）</option><option value="sfm">スーパーFM（前・片軸）</option><option value="fm">FM（前・片軸）</option><option value="stzx">スーパーTZ-X（後・片軸）</option><option value="tz">スーパーTZ（後・片軸）</option><option value="sx">スーパーX（後・片軸）</option><option value="s1">スーパー1（後・片軸）</option><option value="zero">ゼロ（後・片軸）</option><option value="t5">タイプ5（後・片軸）</option><option value="t4">タイプ4（後・片軸）</option><option value="t3">タイプ3（後・片軸）</option><option value="t2">タイプ2（後・片軸）</option><option value="t1">タイプ1（後・片軸）</option></select>
 </div>
-<p class="hint" id="chassisHint">駆動・シャーシを絞らない。ギヤは全公表比。速度は机上換算で、シャーシ固有ロス％は自動加算していません。</p>
+<p class="speed-basis" id="chassisHint" hidden="">駆動・シャーシを絞らない。ギヤは全公表比。速度は机上換算で、シャーシ固有ロス％は自動加算していません。</p>
 </div>
 <div class="machine-item">
 <div class="setting-label"><span>モーター</span><span class="setting-value" id="machineMotorLabel">未選択</span></div>
@@ -2453,17 +2455,17 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <input type="range" id="loadFactorRange" min="-100" max="100" step="1" value="0">
 </div>
 <div class="machine-item">
-<div class="setting-label"><span>保存モード</span></div>
+<div class="setting-label"><span>保存モード<button type="button" class="qmark" id="saveModeNoteBtn" aria-label="保存モードの説明">?</button></span></div>
 <select class="cond-select" id="saveModeSelect">
 <option value="ask">毎回名前を聞いて保存</option>
 <option value="quick">前回の名前で上書き確認</option>
 </select>
-<p class="hint">下の欄が、この記録の名前です。トップの「保存」を押すと、この名前が入った確認画面が開きます。空なら、その場で入力できます。履歴は「履歴」の計測履歴に1件増えます。前の記録は消えません。</p>
+<p class="speed-basis" id="saveModeNote" hidden="">下の欄が、この記録の名前です。トップの「保存」を押すと、この名前が入った確認画面が開きます。空なら、その場で入力できます。履歴は「履歴」の計測履歴に1件増えます。前の記録は消えません。</p>
 <input type="text" class="tire-step-input" id="recordNameInput" maxlength="16" placeholder="ここに名前を入力" autocomplete="off" style="margin-top:8px;">
 </div>
 <div class="machine-item">
-<div class="setting-label"><span>設定のお気に入り</span></div>
-<p class="hint">駆動・シャーシ・モーター・電圧・ギヤ・タイヤ・閾値・集音範囲・負荷を、名前つきでまとめて残します。</p>
+<div class="setting-label"><span>設定のお気に入り<button type="button" class="qmark" id="favNoteBtn" aria-label="お気に入りの説明">?</button></span></div>
+<p class="speed-basis" id="favNote" hidden="">駆動・シャーシ・モーター・電圧・ギヤ・タイヤ・閾値・集音範囲・負荷を、名前つきでまとめて残します。</p>
 <div style="display:flex;gap:8px;margin-top:8px;">
 <button type="button" class="secondary-btn gray" id="setupFavSave" style="flex:1;">この設定を登録</button>
 </div>
@@ -2488,7 +2490,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="reverseCalcModalBackdrop">
 <div class="modal">
-<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">逆算電卓</div><div class="modal-title-note">ロスなしの机上値です</div></div><button class="modal-close" id="reverseCalcCloseTop">×</button></div>
+<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">逆算電卓<button type="button" class="qmark" id="revNoteBtn" aria-label="逆算の説明">?</button></div><div class="speed-basis" id="revNotePanel" hidden="">ロスなしの机上値です。選んだ項目はグレーアウトします。残りの3つを入力してください。速度 km/h ＝ (rpm ÷ ギヤ比) × (タイヤ径mm × π × 60) ÷ 1,000,000</div></div><button class="modal-close" id="reverseCalcCloseTop">×</button></div>
 <div class="setting-item" style="margin-bottom:10px;">
 <div class="setting-label"><span>求めたいもの</span></div>
 <select class="cond-select" id="revSolve">
@@ -2497,7 +2499,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <option value="rpm">必要なモーター回転数 rpm</option>
 <option value="gear">必要なギヤ比</option>
 </select>
-<p style="font-size:12px;color:var(--mute);margin:6px 0 0;">選んだ項目はグレーアウトします。残りの3つを入力してください。</p>
+
 </div>
 <div class="rev-row" data-field="rpm"><div><label style="font-size:11px;color:var(--mute);">モーター回転数 (rpm)</label><input id="revRpm" type="number" inputmode="decimal" value="28000" step="100" class="tire-step-input" style="text-align:left;"></div><div class="rev-step"><button type="button" data-rev="rpm" data-d="-100">−</button><button type="button" data-rev="rpm" data-d="100">＋</button></div></div>
 <div class="rev-row" data-field="gear"><div><label style="font-size:11px;color:var(--mute);">ギヤ比</label><select id="revGear" class="cond-select"><option value="3.5">3.5:1</option><option value="3.7" selected="">3.7:1</option><option value="4.0">4.0:1</option><option value="4.2">4.2:1</option><option value="5">5:1</option><option value="6.4">6.4:1</option><option value="8.75">8.75:1</option><option value="11.2">11.2:1</option></select></div><div class="rev-step"><button type="button" id="revGearMinus">−</button><button type="button" id="revGearPlus">＋</button></div></div>
@@ -2505,7 +2507,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <div class="rev-row" data-field="tire"><div><label style="font-size:11px;color:var(--mute);">タイヤ径 (mm)</label><input id="revTire" type="number" inputmode="decimal" value="22.5" step="0.1" class="tire-step-input" style="text-align:left;"></div><div class="rev-step"><button type="button" data-rev="tire" data-d="-0.1">−</button><button type="button" data-rev="tire" data-d="0.1">＋</button></div></div>
 <div class="rev-out"><div class="k" id="revOutKey">速度</div><div><span class="v" id="revOutVal">--</span><span class="u" id="revOutUnit"></span></div></div>
 <p id="revNote" style="font-size:12px;color:var(--mute);margin-top:8px;"></p>
-<p style="font-size:11px;color:var(--mute);margin-top:8px;line-height:1.55;">速度 km/h ＝ (rpm ÷ ギヤ比) × (タイヤ径mm × π × 60) ÷ 1,000,000</p>
+
 <button class="secondary-btn gray" id="reverseCalcCloseBtn" style="width:100%;margin-top:12px;">閉じる</button>
 </div>
 </div>
@@ -2513,7 +2515,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <div class="modal-backdrop" id="historyModalBackdrop">
 <div class="modal" style="max-width:95vw;width:95vw;">
 <div class="modal-header"><div class="modal-title">計測履歴</div><button class="modal-close" id="historyCloseTop">×</button></div>
-<button type="button" class="hist-fold-btn" id="histFoldBtn">絞り込み・並び替え ▸</button>
+<button type="button" class="hist-fold-btn" id="histFoldBtn">絞り込み・並び替え（押すと開きます） ▸</button>
 <div class="hist-fold-body" id="histFoldBody">
 <div class="filter-grid">
 <div class="filter-item"><label>日付</label><select id="filterDate"><option value="">すべて</option></select></div>
@@ -3277,6 +3279,14 @@ function bindHelpToggle(btnId, panelId) {
 bindHelpToggle("speedHelpBtn", "speedBasis");
 bindHelpToggle("rpmHelpBtn", "rpmBasis");
 bindHelpToggle("cmpHelpBtn", "cmpHelpNotes");
+bindHelpToggle("settingsLeadBtn", "settingsLead");
+bindHelpToggle("stableGateBtn", "stableGateNote");
+bindHelpToggle("machineNoteBtn", "machineNote");
+bindHelpToggle("chassisHintBtn", "chassisHint");
+bindHelpToggle("revNoteBtn", "revNotePanel");
+bindHelpToggle("targetNoteBtn", "targetNote");
+bindHelpToggle("saveModeNoteBtn", "saveModeNote");
+bindHelpToggle("favNoteBtn", "favNote");
 
 function refreshMachineStatusUI() {
   const bar = document.getElementById("cmpMachineBar");
@@ -3303,8 +3313,9 @@ function refreshMachineStatusUI() {
     }
   }
   if (UI.statusLine && !locked) {
-    const base = running ? "MEASURING — 解析中" : "READY — 計測待機中";
-    UI.statusLine.textContent = isMachineSet() ? (base + " ｜ " + txt) : base;
+    const base = running ? "計測中" : "計測待機中";
+    const machine = isMachineSet() ? txt.replace("マシン設定中: ", "マシン　") : "マシン　未設定";
+    UI.statusLine.innerHTML = base + '<span class="status-sub">' + machine + "</span>";
   }
   if (typeof gearOptions !== "undefined") {
     const ms = window.machineState || {};
@@ -4534,7 +4545,7 @@ if (historySortSelect) historySortSelect.addEventListener("change", () => render
   if (!btn || !body) return;
   btn.addEventListener("click", function() {
     const open = body.classList.toggle("open");
-    btn.textContent = open ? "絞り込み・並び替え ▾" : "絞り込み・並び替え ▸";
+    btn.textContent = open ? "絞り込み・並び替え（押すと開きます） ▾" : "絞り込み・並び替え（押すと開きます） ▸";
   });
 })();
 
