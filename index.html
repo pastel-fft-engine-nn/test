@@ -709,6 +709,16 @@ body:not(.load-zero) .stat-value-sub { display: block; min-height: 0.9em; }
 
 .stat-current .stat-value { font-size: 47px; }
 .stat-side .stat-value { font-size: 18px; line-height: 1; }
+.stat-current { position: relative; }
+.stat-current .stat-label { position: absolute; top: 2px; left: 6px; margin: 0; font-size: 8px; letter-spacing: 0.12em; }
+.cur-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 6px; margin-top: 12px; }
+.cur-k { display: block; font-size: 8px; letter-spacing: 0.08em; color: var(--mute); font-weight: 700; }
+.cur-v { display: block; font-family: var(--num); font-size: 20px; font-weight: 800; line-height: 1.05; }
+.stat-avg, .cur-pair + .cur-k { margin-top: 2px; }
+.cur-pair { display: none; }
+body.machine-applied .cur-pair { display: grid; }
+body.machine-applied .stat-avg { display: none; }
+body.machine-applied .stat-current .stat-value { display: none; }
 .stat-block.stat-current { display: flex; flex-direction: column; justify-content: center; padding: 8px 8px; min-height: 115px; }
 .stat-block.stat-side {
   width: 100%;
@@ -1730,8 +1740,12 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <div class="stat-block stat-current">
 <div class="stat-label">CURRENT</div>
 <div class="stat-value" id="rpmNow">--</div>
+<div class="cur-pair">
+<div><span class="cur-k">未設定</span><span class="cur-v" id="rpmNowStock">--</span></div>
+<div><span class="cur-k">設定</span><span class="cur-v" id="rpmNowSet">--</span></div>
+</div>
 <div class="stat-value-sub" id="rpmNowRaw"></div>
-<div class="stat-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote"></small></div>
+<div class="stat-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote"></small></div><div class="cur-pair"><div><span class="cur-k">未AVG</span><span class="cur-v" id="rpmAvgStock">--</span></div><div><span class="cur-k">設AVG</span><span class="cur-v" id="rpmAvgSet">--</span></div></div>
 </div>
 <div class="stat-stack">
 <div class="stat-block stat-side" id="rpmMaxBlock">
@@ -1755,8 +1769,12 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <div class="stat-block stat-current">
 <div class="stat-label">CURRENT</div>
 <div class="stat-value" id="speedNow">--</div>
+<div class="cur-pair">
+<div><span class="cur-k">未設定</span><span class="cur-v" id="speedNowStock">--</span></div>
+<div><span class="cur-k">設定</span><span class="cur-v" id="speedNowSet">--</span></div>
+</div>
 <div class="stat-value-sub" id="speedNowRaw"></div>
-<div class="stat-avg">AVG <span id="speedAvg">--</span><small id="speedAvgNote"></small></div>
+<div class="stat-avg">AVG <span id="speedAvg">--</span><small id="speedAvgNote"></small></div><div class="cur-pair"><div><span class="cur-k">未AVG</span><span class="cur-v" id="speedAvgStock">--</span></div><div><span class="cur-k">設AVG</span><span class="cur-v" id="speedAvgSet">--</span></div></div>
 </div>
 <div class="stat-stack">
 <div class="stat-block stat-side">
@@ -2503,18 +2521,10 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <div id="setupFavList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>
 </div>
 <div style="display:flex;gap:8px;margin-top:4px;">
-<button class="secondary-btn gray" id="machineToRevBtn" style="flex:1;">ロック瞬間メモ</button>
+<button class="secondary-btn gray" id="machineNormalBtn" style="flex:1;">通常表示に戻す</button>
 <button class="primary-btn blue" id="machineCloseBtn" style="flex:1;">反映して閉じる</button>
 </div>
-<div id="lockSnapPanel" style="display:none;">
-<div style="font-size:10px;letter-spacing:0.02em;color:var(--mute);padding:8px 8px 4px;">ロックした瞬間のメモです。トップの「履歴」とは別です。トップの履歴は、保存した計測の一覧です。</div>
-<div id="lockSnapScroll">
-<table id="lockSnapTable">
-<thead><tr><th>日付</th><th>名前</th><th>回転</th><th>モーター</th><th>ギヤ比</th><th>電圧</th><th>タイヤ径</th></tr></thead>
-<tbody></tbody>
-</table>
-</div>
-</div>
+<div id="lockSnapPanel" hidden></div>
 </div>
 </div>
 </div>
@@ -2545,7 +2555,7 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 
 <div class="modal-backdrop" id="historyModalBackdrop">
 <div class="modal" style="max-width:95vw;width:95vw;">
-<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">計測履歴</div><div class="modal-title-note">保存した計測の一覧です。マシン設定の「ロック瞬間メモ」とは別です。</div></div><button class="modal-close" id="historyCloseTop">×</button></div>
+<div class="modal-header"><div class="modal-title-wrap"><div class="modal-title">計測履歴</div><div class="modal-title-note">保存を押した記録だけです。ロックした数字は比較表の裏で使い、ここには出しません。</div></div><button class="modal-close" id="historyCloseTop">×</button></div>
 <button type="button" class="hist-fold-btn" id="histFoldBtn">絞り込み・並び替え（押すと開きます） ▸</button>
 <div class="hist-fold-body" id="histFoldBody">
 <div class="filter-grid">
@@ -2642,6 +2652,8 @@ let maxSpeedVal = 0;
 let minSpeedVal = Infinity;
 let avgSpeedSum = 0;
 let avgRpmSum = 0;
+let avgSpeedStockSum = 0;
+let avgRpmStockSum = 0;
 let avgSpeedMs = 0;
 let avgLastTs = 0;
 let avgLastRpm = 0;
@@ -2649,6 +2661,8 @@ let avgStableMs = 0;
 function resetSpeedAvg() {
   avgSpeedSum = 0;
   avgRpmSum = 0;
+  avgSpeedStockSum = 0;
+  avgRpmStockSum = 0;
   avgSpeedMs = 0;
   avgLastTs = 0;
   avgLastRpm = 0;
@@ -2675,11 +2689,22 @@ function paintSpeedAvg() {
   if (note) note.textContent = sec;
   if (rpmEl) rpmEl.textContent = r == null ? "--" : Math.round(r).toLocaleString();
   if (rpmNote) rpmNote.textContent = sec;
+  const rpmSet = document.getElementById("rpmAvgSet");
+  const speedSet = document.getElementById("speedAvgSet");
+  if (rpmSet) rpmSet.textContent = r == null ? "--" : Math.round(r).toLocaleString();
+  if (speedSet) speedSet.textContent = v == null ? "--" : v.toFixed(2);
+  const rs = document.getElementById("rpmAvgStock");
+  const ss = document.getElementById("speedAvgStock");
+  if (rs) rs.textContent = avgSpeedMs < 1000 ? "--" : Math.round(avgRpmStockSum / avgSpeedMs).toLocaleString();
+  if (ss) ss.textContent = avgSpeedMs < 1000 ? "--" : (avgSpeedStockSum / avgSpeedMs).toFixed(2);
 }
 function addSpeedSample(speed, rpm, dt) {
   if (!(dt > 0) || !(rpm > 0) || !isFinite(rpm)) return;
   if (speed > 0 && isFinite(speed)) avgSpeedSum += speed * dt;
   avgRpmSum += rpm * dt;
+  const raw = currentRpmRaw > 0 ? currentRpmRaw : rpm;
+  avgRpmStockSum += raw * dt;
+  avgSpeedStockSum += (raw / 3.7 * 22.5 * Math.PI * 60 / 1e6) * dt;
   avgSpeedMs += dt;
   paintSpeedAvg();
 }
@@ -3218,11 +3243,17 @@ if (ready) addSpeedSample(speed, rpmNum, gate.dt);
 
 // 表示（負荷適用後 = メイン表示）
 UI.rpmNow.textContent = dispNow;
+const rpmSet = document.getElementById("rpmNowSet"); if (rpmSet) rpmSet.textContent = dispNow;
+const rpmStock = document.getElementById("rpmNowStock");
+if (rpmStock) rpmStock.textContent = dispNow === "--" ? "--" : Math.round(rawRpm).toLocaleString();
 applyRpmHit();
 UI.rpmMax.textContent = maxRpmVal > 0 ? Math.round(maxRpmVal) : "--";
 UI.rpmMin.textContent = minRpmVal !== Infinity ? Math.round(minRpmVal) : "--";
 
 UI.speedNow.textContent = dispNow === "--" ? "--" : speed.toFixed(2);
+const speedSet = document.getElementById("speedNowSet"); if (speedSet) speedSet.textContent = dispNow === "--" ? "--" : speed.toFixed(2);
+const speedStock = document.getElementById("speedNowStock");
+if (speedStock) speedStock.textContent = dispNow === "--" ? "--" : (rawRpm / 3.7 * 22.5 * Math.PI * 60 / 1e6).toFixed(2);
 UI.speedTop.textContent = maxSpeedVal > 0 ? maxSpeedVal.toFixed(2) : "--";
 UI.speedMin.textContent = minSpeedVal !== Infinity ? minSpeedVal.toFixed(2) : "--";
 
@@ -3246,6 +3277,10 @@ UI.speedMinRaw.textContent = "";
 avgLastTs = 0;
 UI.rpmNow.textContent = "--";
 UI.speedNow.textContent = "--";
+const rpmStockR = document.getElementById("rpmNowStock"); if (rpmStockR) rpmStockR.textContent = "--";
+const speedStockR = document.getElementById("speedNowStock"); if (speedStockR) speedStockR.textContent = "--";
+const rpmStock0 = document.getElementById("rpmNowStock"); if (rpmStock0) rpmStock0.textContent = "--";
+const speedStock0 = document.getElementById("speedNowStock"); if (speedStock0) speedStock0.textContent = "--";
 if (UI.rpmNowRaw) UI.rpmNowRaw.textContent = "";
 if (UI.speedNowRaw) UI.speedNowRaw.textContent = "";
 }
@@ -3723,6 +3758,10 @@ function applyLoadToShown() {
     const disp = limitDisplay(Math.round(currentRpm));
     UI.rpmNow.textContent = disp === "--" ? "--" : String(disp);
     UI.speedNow.textContent = disp === "--" ? "--" : currentSpeed.toFixed(2);
+    const rpmStock = document.getElementById("rpmNowStock");
+    const speedStock = document.getElementById("speedNowStock");
+    if (rpmStock) rpmStock.textContent = Math.round(currentRpmRaw).toLocaleString();
+    if (speedStock) speedStock.textContent = (currentRpmRaw / 3.7 * 22.5 * Math.PI * 60 / 1e6).toFixed(2);
     UI.rpmNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + Math.round(currentRpmRaw)) : "";
     UI.speedNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + currentSpeedRaw.toFixed(2)) : "";
   }
@@ -3863,17 +3902,17 @@ function kmhFromShownRpm(rpm) {
 
 function refreshDisplayedSpeed() {
   if (!UI.speedNow) return;
-  const now = kmhFromShownRpm(currentRpm);
-  if (now != null && UI.speedNow.textContent !== "--") UI.speedNow.textContent = now.toFixed(2);
-  const top = kmhFromShownRpm(maxRpmVal);
-  if (top != null && UI.speedTop && UI.speedTop.textContent !== "--") {
-    maxSpeedVal = top;
-    UI.speedTop.textContent = top.toFixed(2);
+  const cond = document.getElementById("speedNowCond");
+  if (cond) {
+    const gear = (UI.gearLabel && UI.gearLabel.textContent) || "3.7:1";
+    const tire = (UI.tireLabel && UI.tireLabel.textContent) || "22.5 mm";
+    const load = (UI.loadFactorLabel && UI.loadFactorLabel.textContent) || "0%";
+    cond.textContent = gear + " / " + tire + (load !== "0%" ? " / " + load : "");
   }
-  const min = kmhFromShownRpm(minRpmVal);
-  if (min != null && UI.speedMin && UI.speedMin.textContent !== "--") {
-    minSpeedVal = min;
-    UI.speedMin.textContent = min.toFixed(2);
+  const now = kmhFromShownRpm(currentRpm);
+  if (now != null) {
+    currentSpeed = now;
+    UI.speedNow.textContent = now.toFixed(2);
   }
 }
 
@@ -4128,15 +4167,26 @@ renderSetupFavs();
   });
   function closeMachine() {
     persistMachine();
+    if (typeof applyLoadToShown === "function") applyLoadToShown();
+    if (typeof refreshDisplayedSpeed === "function") refreshDisplayedSpeed();
     backdrop.style.display = "none";
     document.body.style.overflow = "";
   }
   document.getElementById("machineCloseTop").addEventListener("click", closeMachine);
-  document.getElementById("machineCloseBtn").addEventListener("click", closeMachine);
-  document.getElementById("machineToRevBtn").addEventListener("click", function() {
-    const panel = document.getElementById("lockSnapPanel");
-    if (!panel) return;
-    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  document.getElementById("machineCloseBtn").addEventListener("click", function() {
+    document.body.classList.add("machine-applied");
+    localStorage.setItem("rpmMachineApplied", "1");
+    closeMachine();
+  });
+  const normalBtn = document.getElementById("machineNormalBtn");
+  if (normalBtn) normalBtn.addEventListener("click", function() {
+    document.body.classList.remove("machine-applied");
+    localStorage.removeItem("rpmMachineApplied");
+    closeMachine();
+  });
+  if (localStorage.getItem("rpmMachineApplied") === "1") document.body.classList.add("machine-applied");
+  const lockMemoBtn = document.getElementById("machineToRevBtn");
+  if (lockMemoBtn) lockMemoBtn.addEventListener("click", function() {
     if (typeof window.renderLockSnaps === "function") window.renderLockSnaps();
   });
   window.renderLockSnaps = function() {
