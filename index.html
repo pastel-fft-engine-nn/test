@@ -1648,6 +1648,9 @@ body.theme-list .stat-block {
   border-radius: 0 !important;
 }
 body.theme-list .card { padding: 0; margin-bottom: 8px; }
+body.theme-list .meter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+body.theme-list #rpmBlock, body.theme-list #speedBlock { min-width: 0; }
+
 body.theme-list .brand-sub { display: none; }
 body.theme-list .realtime-stats {
   display: block;
@@ -1716,6 +1719,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 </div>
 </div>
 
+<div class="meter-row">
 <div id="rpmBlock">
 <div class="section-kicker kicker-rpm">MOTOR RPM<span id="rpmTargetMark"></span><button type="button" class="qmark" id="rpmHelpBtn" aria-label="回転の説明">?</button></div>
 <div class="speed-basis" id="rpmBasis" hidden="">下は回しているモーターが出す音を集音した数値です。平均値は、回してから計測開始を押してください。もしくは、回してるときにリセット押してください。</div>
@@ -1741,6 +1745,7 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 </div>
 </div>
 
+<div id="speedBlock">
 <div class="section-kicker kicker-speed">SPEED (km/h)<button type="button" class="qmark" id="speedHelpBtn" aria-label="速度の説明">?</button></div>
 <div class="speed-basis" id="speedBasis" hidden="">音の回転をギヤ比で車軸に落とし、タイヤの円周で km/h にしています。校正と走行負荷は、変えたときだけ掛かります。</div>
 <div class="realtime-stats">
@@ -1764,6 +1769,8 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 </div>
 </div>
 
+</div>
+</div>
 <div class="realtime-center" id="statusLine">READY — 計測待機中</div>
 
 <div class="realtime-buttons">
