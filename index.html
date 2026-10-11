@@ -3245,7 +3245,7 @@ if (ready) addSpeedSample(speed, rpmNum, gate.dt);
 UI.rpmNow.textContent = dispNow;
 const rpmSet = document.getElementById("rpmNowSet"); if (rpmSet) rpmSet.textContent = dispNow;
 const rpmStock = document.getElementById("rpmNowStock");
-if (rpmStock) rpmStock.textContent = dispNow === "--" ? "--" : Math.round(rawRpm).toLocaleString();
+if (rpmStock) rpmStock.textContent = dispNow === "--" ? "--" : String(Math.round(rawRpm));
 applyRpmHit();
 UI.rpmMax.textContent = maxRpmVal > 0 ? Math.round(maxRpmVal) : "--";
 UI.rpmMin.textContent = minRpmVal !== Infinity ? Math.round(minRpmVal) : "--";
@@ -3760,7 +3760,7 @@ function applyLoadToShown() {
     UI.speedNow.textContent = disp === "--" ? "--" : currentSpeed.toFixed(2);
     const rpmStock = document.getElementById("rpmNowStock");
     const speedStock = document.getElementById("speedNowStock");
-    if (rpmStock) rpmStock.textContent = Math.round(currentRpmRaw).toLocaleString();
+    if (rpmStock) rpmStock.textContent = String(Math.round(currentRpmRaw));
     if (speedStock) speedStock.textContent = (currentRpmRaw / 3.7 * 22.5 * Math.PI * 60 / 1e6).toFixed(2);
     UI.rpmNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + Math.round(currentRpmRaw)) : "";
     UI.speedNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + currentSpeedRaw.toFixed(2)) : "";
