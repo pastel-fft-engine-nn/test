@@ -1964,6 +1964,17 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
   </nav>
 </div>
 
+
+<div class="modal-backdrop" id="restoreAskBackdrop" style="display:none;z-index:200;">
+<div class="modal" style="max-width:420px;margin:20vh 16px 0;padding:18px;">
+<div class="modal-title">復元しますか</div>
+<p class="speed-basis" style="margin-top:10px;">前の端末やサイトのバックアップがあれば、はいを押してファイルを選んでください。</p>
+<div style="display:flex;gap:8px;margin-top:14px;">
+<button class="primary-btn blue" id="restoreAskYes" style="flex:1;">はい</button>
+<button class="secondary-btn gray" id="restoreAskNo" style="flex:1;">いいえ</button>
+</div>
+</div>
+</div>
 <div class="modal-backdrop" id="settingsModalBackdrop">
 <div class="modal">
 <div class="modal-header"><div class="modal-title" data-i18n="settingsTitle">測定設定<button type="button" class="qmark" id="settingsLeadBtn" aria-label="設定の説明">?</button></div><button class="modal-close" id="settingsCloseTop">×</button></div>
@@ -2005,6 +2016,12 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <button type="button" id="uiThemeToggleBtn" style="display:none" aria-hidden="true">外観: 現行（丸み）</button>
 <button type="button" id="reverseCalcOpenBtn" style="display:none" aria-hidden="true"></button>
 <div style="margin-top:8px;"><button class="secondary-btn gray" id="settingsHelpBtn" style="width:100%;" data-i18n="help">使い方</button></div>
+<div style="display:flex;gap:8px;margin-top:12px;">
+<button class="secondary-btn gray" id="backupExportBtn" style="flex:1;">書き出し</button>
+<button class="secondary-btn gray" id="backupImportBtn" style="flex:1;">復元</button>
+<input type="file" id="backupImportFile" accept="application/json,.json" hidden>
+</div>
+<p class="speed-basis" id="backupNote">履歴、設定、お気に入りを1つのファイルにします。iPhoneでもAndroidでも同じファイルで戻せます。</p>
 <div style="display:flex;gap:8px;margin-top:12px;">
 <button class="primary-btn blue" id="settingsResetBtn" style="flex:1;" data-i18n="setReset">設定リセット</button>
 <button class="secondary-btn gray" id="settingsCloseBtn" style="flex:1;" data-i18n="close">閉じる</button>
@@ -4349,6 +4366,72 @@ const themeMeta = document.querySelector('meta[name="theme-color"]');
 if (themeMeta) themeMeta.setAttribute("content", active ? "#0d0d0f" : "#f4f2ee");
 });
 
+
+(function initBackup() {
+  const KEYS = ["rpmHistory","rpmFavorites","rpmTarget","rpmLockSnaps","rpmCmpVoltFine","rpmCmpSplit","rpmStableGate","rpmMachine","rpmSetupFavs","rpmMachineApplied","darkMode","rpmOnboardV1","rpmUiTheme","rpmUiThemeV2","rpmLang"];
+  const exportBtn = document.getElementById("backupExportBtn");
+  const importBtn = document.getElementById("backupImportBtn");
+  const file = document.getElementById("backupImportFile");
+  const ask = document.getElementById("restoreAskBackdrop");
+  function exportData() {
+    const data = {};
+    KEYS.forEach(function(k) {
+      const v = localStorage.getItem(k);
+      if (v != null) data[k] = v;
+    });
+    const pack = { app: "rpm-memory", version: 1, exportedAt: new Date().toISOString(), data: data };
+    const blob = new Blob([JSON.stringify(pack, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "rpm-memory-" + new Date().toISOString().slice(0, 10) + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+  }
+  function importData(f) {
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = function() {
+      try {
+        const pack = JSON.parse(String(reader.result || ""));
+        const data = pack && pack.data;
+        if (!data || pack.app !== "rpm-memory") throw new Error("bad");
+        KEYS.forEach(function(k) { localStorage.removeItem(k); });
+        Object.keys(data).forEach(function(k) {
+          if (KEYS.indexOf(k) >= 0 && data[k] != null) localStorage.setItem(k, data[k]);
+        });
+        localStorage.setItem("rpmRestoreAsked", "1");
+        location.reload();
+      } catch (e) {
+        alert("このファイルは復元できません。");
+      }
+    };
+    reader.readAsText(f);
+  }
+  if (exportBtn) exportBtn.addEventListener("click", exportData);
+  if (importBtn && file) importBtn.addEventListener("click", function() { file.click(); });
+  if (file) file.addEventListener("change", function() {
+    const f = file.files && file.files[0];
+    file.value = "";
+    importData(f);
+  });
+  const yes = document.getElementById("restoreAskYes");
+  const no = document.getElementById("restoreAskNo");
+  if (ask && localStorage.getItem("rpmRestoreAsked") !== "1") {
+    ask.style.display = "flex";
+  }
+  if (yes) yes.addEventListener("click", function() {
+    ask.style.display = "none";
+    localStorage.setItem("rpmRestoreAsked", "1");
+    if (file) file.click();
+  });
+  if (no) no.addEventListener("click", function() {
+    ask.style.display = "none";
+    localStorage.setItem("rpmRestoreAsked", "1");
+  });
+})();
 document.getElementById("settingsResetBtn").addEventListener("click", () => {
 UI.noiseRange.value = 20;
 UI.rpmCalRange.value = 1.00;
