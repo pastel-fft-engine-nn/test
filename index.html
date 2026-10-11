@@ -716,9 +716,9 @@ body:not(.load-zero) .stat-value-sub { display: block; min-height: 0.9em; }
 .cur-v { display: block; font-family: var(--num); font-size: 20px; font-weight: 800; line-height: 1.05; }
 .stat-avg, .cur-pair + .cur-k { margin-top: 2px; }
 .cur-pair { display: none; }
-body.machine-applied .cur-pair { display: grid; }
-body.machine-applied .stat-avg { display: none; }
-body.machine-applied .stat-current .stat-value { display: none; }
+body.machine-applied #speedBlock .cur-pair { display: grid; }
+body.machine-applied #speedBlock .stat-avg { display: none; }
+body.machine-applied #speedBlock .stat-current .stat-value { display: none; }
 .stat-block.stat-current { display: flex; flex-direction: column; justify-content: center; padding: 8px 8px; min-height: 115px; }
 .stat-block.stat-side {
   width: 100%;
@@ -1740,12 +1740,8 @@ body.theme-list #conditionsCard { border-top: 1px solid var(--line); padding-top
 <div class="stat-block stat-current">
 <div class="stat-label">CURRENT</div>
 <div class="stat-value" id="rpmNow">--</div>
-<div class="cur-pair">
-<div><span class="cur-k">未設定</span><span class="cur-v" id="rpmNowStock">--</span></div>
-<div><span class="cur-k">設定</span><span class="cur-v" id="rpmNowSet">--</span></div>
-</div>
 <div class="stat-value-sub" id="rpmNowRaw"></div>
-<div class="stat-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote"></small></div><div class="cur-pair"><div><span class="cur-k">未AVG</span><span class="cur-v" id="rpmAvgStock">--</span></div><div><span class="cur-k">設AVG</span><span class="cur-v" id="rpmAvgSet">--</span></div></div>
+<div class="stat-avg">AVG <span id="rpmAvg">--</span><small id="rpmAvgNote"></small></div>
 </div>
 <div class="stat-stack">
 <div class="stat-block stat-side" id="rpmMaxBlock">
