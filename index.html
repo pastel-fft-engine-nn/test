@@ -7856,5 +7856,66 @@ window.tr = function(s) { s = String(s); return window.APP_LANG === "en" ? trTex
   });
 })();
 </script>
+<script>
+  (function() {
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    if (!isAndroid) return;
+
+    // 1. ボタンを確実に動かす
+    function forceClick(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener("touchend", function(e) {
+        e.preventDefault();
+        el.click();
+      }, { passive: false });
+    }
+    ["historyBtn","resetBtn","machineBtn","reverseCalcMainBtn","settingsBtn",
+     "dashHistBtn","dashResetBtn","dashMachBtn","dashRevBtn","dashSetBtn",
+     "aviHistBtn","aviResetBtn","aviMachBtn","aviSetBtn",
+     "matHist","matReset","matMachine","matRev","matSet",
+     "lcHist","lcReset","lcMachine","lcRev","lcSet",
+     "chHist","chReset","chMachine","chRev","chSet",
+     "bpHist","bpReset","bpMachine","bpRev","bpSet",
+     "gbHist","gbMachine","gbRev","gbSet",
+     "iosHist","iosReset","iosMachine","iosRev","iosSet"].forEach(forceClick);
+
+    document.querySelectorAll(".theme-pick, .lang-pick").forEach(function(btn) {
+      btn.addEventListener("touchend", function(e) {
+        e.preventDefault();
+        btn.click();
+      }, { passive: false });
+    });
+
+    // 2. FLARE / ダッシュ / AVI を非表示
+    document.querySelectorAll(
+      '.theme-pick[data-theme="flare"], .theme-pick[data-theme="dash2"], .theme-pick[data-theme="avi"]'
+    ).forEach(function(el) { el.style.display = "none"; });
+
+    // 3. スクロール修正
+    var style = document.createElement("style");
+    style.textContent = `
+      .modal-backdrop {
+        align-items: flex-start !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .modal-content, .modal-body,
+      #settingsModal, #machineModal, #reverseModal, #historyModal,
+      .settings-content, .machine-content {
+        max-height: 88vh !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .history-table-wrapper, .hist-fold-body {
+        max-height: none !important;
+        overflow: visible !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 4. 縦比 90%
+    document.body.style.zoom = "0.9";
+  })();
+</script>
 </body></html>
-  
