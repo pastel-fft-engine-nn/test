@@ -168,8 +168,8 @@ canvas#spectrum {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 32px;
+  height: 32px;
   margin: 0;
   padding: 0;
   border: 1.5px solid currentColor;
@@ -177,7 +177,7 @@ canvas#spectrum {
   background: transparent;
   color: var(--mute);
   font-family: var(--font);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
@@ -398,7 +398,6 @@ body.theme-plain.dark-mode .hist-card:nth-child(4n) { background: #241e18; }
 .hist-fold-body.open { display: block; }
 .hist-line { display: grid; grid-template-columns: 52px 1fr 1fr; column-gap: 6px; align-items: start; }
 .hist-line + .hist-line { margin-top: 4px; }
-.hist-body { display: grid; grid-template-columns: minmax(78px, 0.85fr) 2.3fr; gap: 4px 8px; align-items: start; }
 .hist-grid { margin-top: 2px; border-top: 1px solid var(--line); }
 .hg-row { display: grid; grid-template-columns: 1fr 1fr; height: 37px; border-bottom: 1px solid var(--line); }
 .hg-row4 { grid-template-columns: 2fr 1fr 1fr 1fr; }
@@ -473,9 +472,9 @@ table td, table th { text-align: center !important; }
 .wave-container.is-folded canvas#spectrum { display: none; }
 .wave-container.is-folded { padding-bottom: 4px; margin-bottom: 4px; }
 .wave-fold {
-  border: 2px solid #ff973d; background: transparent; color: #ff973d;
-  font-size: 12px; font-weight: 800; letter-spacing: 0.04em;
-  padding: 5px 11px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid #ff973d; background: transparent; color: #ff973d;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 999px; cursor: pointer;
 }
 .wave-th { display: none; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; color: var(--ice); }
 .wave-container.is-folded .wave-th { display: inline; }
@@ -530,7 +529,7 @@ table td, table th { text-align: center !important; }
   font-family: var(--font);
 }
 #saveModalBackdrop { z-index: 140; }
-#saveNameInput, #recordNameInput { min-height: 48px; font-size: 18px; }
+#saveNameInput { min-height: 48px; font-size: 18px; }
 .input-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
 .input-row label { font-size: 11px; letter-spacing: 0.12em; font-weight: 700; color: var(--mute); }
 
@@ -671,7 +670,8 @@ body.theme-plain.dark-mode .fav-name.is-fav { color: #ffb07a; }
   z-index: 2;
   pointer-events: none;
 }
-.rev-row { display: grid; grid-template-columns: 1fr auto; gap: 4px; align-items: end; margin-bottom: 2px; padding-bottom: 2px; border-bottom: 1px solid var(--line); }
+.rev-row { display: grid; grid-template-columns: 1fr auto; gap: 4px; align-items: end; margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+#reverseCalcModalBackdrop .rev-row label { font-size: 12px !important; }
 #reverseCalcModalBackdrop .rev-row input,
 #reverseCalcModalBackdrop .rev-row select { padding: 4px 8px; font-size: 14px; }
 #reverseCalcModalBackdrop .rev-step button { height: 28px; min-width: 44px; font-size: 16px; }
@@ -1299,80 +1299,9 @@ body.theme-dash2 .app-shell { display: none; }
 #dashMinLimit::-webkit-slider-runnable-track, #dashMaxLimit::-webkit-slider-runnable-track {
   height: 2px; background: transparent;
 }
-.gp-head{display:flex;align-items:center;justify-content:space-between;border-top:4px solid #E10600;background:linear-gradient(90deg,#E10600 0 26%,#F5F5F4 26% 30%,transparent 30%);padding:10px 2px 6px;}
-.gp-title{font-weight:900;font-style:italic;letter-spacing:.08em;font-size:17px;}
-.gp-title small{color:#E10600;font-style:italic;}
-.gp-state{font-size:11px;font-weight:800;letter-spacing:.14em;padding:4px 10px;border:1.5px solid #3A3A40;color:#9B9BA1;}
-.gp-state.live{border-color:#E10600;color:#fff;background:#E10600;}
-.gp-state.hold{border-color:#FFC400;color:#FFC400;}
-.gp-shift{display:flex;gap:5px;justify-content:center;margin:10px 0 2px;}
-.gp-shift i{width:20px;height:10px;background:#232326;display:block;transform:skewX(-18deg);}
-.gp-gaugewrap{display:flex;justify-content:center;}
 #gpGauge{width:min(340px,88vw);height:min(340px,88vw);}
-.gp-speed{text-align:center;margin-top:2px;}
-.gp-speed .v{font-size:40px;font-weight:900;font-style:italic;color:#FFC400;line-height:1;}
-.gp-speed .u{font-size:12px;font-weight:800;color:#9B9BA1;letter-spacing:.2em;}
-.gp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;}
-.gp-box{background:#151517;border:1px solid #26262A;border-top:3px solid #E10600;padding:6px 8px;}
-.gp-box .k{font-size:9px;font-weight:800;letter-spacing:.16em;color:#9B9BA1;}
-.gp-box .n{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;}
-.gp-btns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin-top:12px;}
-.gp-btn{border:0;padding:14px 6px;font-size:15px;font-weight:900;letter-spacing:.06em;cursor:pointer;}
-.gp-btn.start{background:#E10600;color:#fff;}
-.gp-btn.lock{background:#F5F5F4;color:#111;}
-.gp-btn.save{background:#232326;color:#F5F5F4;border:1px solid #3A3A40;}
-.gp-links{display:flex;justify-content:space-between;margin-top:12px;}
-.gp-links button{background:none;border:0;color:#C9C9CE;font-size:13px;font-weight:700;padding:8px 2px;cursor:pointer;}
-.sonar-head{display:flex;align-items:center;justify-content:space-between;padding:6px 2px;border-bottom:1px solid #0E2A44;}
-.sonar-title{font-weight:900;letter-spacing:.34em;font-size:16px;color:#31D8F7;}
-.sonar-state{font-size:11px;font-weight:800;letter-spacing:.14em;padding:4px 10px;border:1.5px solid #0E2A44;color:#5E7E94;}
-.sonar-state.live{border-color:#31D8F7;color:#031018;background:#31D8F7;}
-.sonar-state.hold{border-color:#2EE6A8;color:#2EE6A8;}
-.sonar-scopewrap{display:flex;justify-content:center;padding:10px 0 2px;}
 #sonarScope{width:min(330px,86vw);height:min(330px,86vw);}
-.sonar-big{display:flex;gap:8px;margin-top:8px;}
-.sonar-main{flex:1;background:#06182B;border:1px solid #0E2A44;padding:8px 10px;text-align:center;}
-.sonar-main .k{font-size:9px;font-weight:800;letter-spacing:.22em;color:#5E7E94;}
-.sonar-main .v{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.15;}
-.sonar-main.rpm .v{color:#31D8F7;}
-.sonar-main.spd .v{color:#2EE6A8;}
-.sonar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;}
-.sonar-box{background:#06182B;border:1px solid #0E2A44;padding:6px 8px;}
-.sonar-box .k{font-size:9px;font-weight:800;letter-spacing:.14em;color:#5E7E94;}
-.sonar-box .n{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;}
-.sonar-btns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin-top:12px;}
-.sonar-btn{padding:14px 6px;font-size:15px;font-weight:900;letter-spacing:.06em;cursor:pointer;background:#0A2036;color:#CDEFFA;border:1px solid #14507A;}
-.sonar-btn.start{background:#31D8F7;color:#031018;border-color:#31D8F7;}
-.sonar-links{display:flex;justify-content:space-between;margin-top:12px;}
-.sonar-links button{background:none;border:0;color:#8FB8CC;font-size:13px;font-weight:700;padding:8px 2px;cursor:pointer;}
-.hud-frame{position:relative;border:1px solid #1E5C38;padding:16px 12px 14px;background:rgba(4,26,12,.55);display:flex;flex-direction:column;min-height:calc(100vh - 26px - env(safe-area-inset-top, 0px));}
-.hud-frame i{position:absolute;width:18px;height:18px;border:0 solid #3DFF74;}
-.hud-frame i.tl{top:-2px;left:-2px;border-top-width:3px;border-left-width:3px;}
-.hud-frame i.tr{top:-2px;right:-2px;border-top-width:3px;border-right-width:3px;}
-.hud-frame i.bl{bottom:-2px;left:-2px;border-bottom-width:3px;border-left-width:3px;}
-.hud-frame i.br{bottom:-2px;right:-2px;border-bottom-width:3px;border-right-width:3px;}
-.hud-head{display:flex;justify-content:space-between;align-items:center;}
-.hud-title{color:#7CFFA8;letter-spacing:.3em;font-size:13px;font-weight:700;}
-.hud-state{font-size:11px;font-weight:700;letter-spacing:.14em;padding:4px 10px;border:1.5px solid #1E5C38;color:#7CFFA8;}
-.hud-state.live{border-color:#3DFF74;color:#031007;background:#3DFF74;}
-.hud-state.hold{border-color:#FFB000;color:#FFB000;}
 #hudSpec{width:100%;height:150px;display:block;margin-top:10px;}
-.hud-big{display:flex;gap:10px;margin-top:10px;}
-.hud-main{flex:1;border:1px solid #1E5C38;padding:8px 10px;text-align:center;}
-.hud-main .k{font-size:9px;letter-spacing:.26em;color:#7CFFA8;}
-.hud-main .v{font-size:42px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;}
-.hud-main.rpm .v{color:#3DFF74;}
-.hud-main.spd .v{color:#FFB000;}
-.hud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
-.hud-box{border:1px solid #14401F;padding:6px 8px;}
-.hud-box .k{font-size:9px;letter-spacing:.18em;color:#5FA873;}
-.hud-box .n{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;color:#D8FFE2;}
-.hud-btns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin-top:auto;padding-top:14px;}
-.hud-btn{padding:16px 6px;font-size:14px;font-weight:700;letter-spacing:.1em;cursor:pointer;background:transparent;color:#3DFF74;border:1.5px solid #3DFF74;font-family:inherit;}
-.hud-btn.start{background:#3DFF74;color:#031007;}
-.hud-btn.lock{color:#FFB000;border-color:#FFB000;}
-.hud-links{display:flex;justify-content:space-between;margin-top:10px;}
-.hud-links button{background:none;border:0;color:#7CFFA8;font-size:12px;font-weight:700;letter-spacing:.08em;padding:8px 2px;cursor:pointer;font-family:inherit;}
 
 #paperApp{display:none;}
 body.theme-paper .app-shell{display:none !important;}
@@ -1427,26 +1356,7 @@ body.theme-material #matApp{display:block;max-width:560px;margin:0 auto;padding:
 .mat-nav button{flex:1;background:none;border:0;font-size:11px;font-weight:600;color:#3C4249;padding:6px 2px;cursor:pointer;border-radius:16px;}
 .mat-nav button:active{background:#D3DAE2;}
 
-.vu-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #4A2F1B;padding-bottom:8px;}
-.vu-title{letter-spacing:.3em;font-size:14px;font-weight:700;color:#FFB545;}
-.vu-state{font-size:11px;font-weight:700;letter-spacing:.16em;padding:4px 10px;border:1.5px solid #4A2F1B;color:#A98B5F;}
-.vu-state.live{border-color:#FFB545;background:#FFB545;color:#1A120B;}
-.vu-state.hold{border-color:#F0D9A8;color:#F0D9A8;}
 #vuCanvas{width:100%;height:190px;display:block;margin-top:10px;}
-.vu-digi{display:flex;gap:10px;margin-top:10px;}
-.vu-main{flex:1;background:#241608;border:1px solid #4A2F1B;padding:8px 10px;text-align:center;}
-.vu-main .k{font-size:9px;letter-spacing:.26em;color:#A98B5F;font-family:system-ui,sans-serif;font-weight:700;}
-.vu-main .v{font-size:32px;font-weight:700;color:#FFB545;font-variant-numeric:tabular-nums;line-height:1.2;}
-.vu-main.spd .v{color:#F0D9A8;}
-.vu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
-.vu-box{background:#241608;border:1px solid #3A2412;padding:6px 8px;}
-.vu-box .k{font-size:9px;letter-spacing:.16em;color:#A98B5F;font-family:system-ui,sans-serif;font-weight:700;}
-.vu-box .n{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;}
-.vu-btns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin-top:14px;}
-.vu-btn{padding:14px 6px;font-size:14px;font-weight:700;letter-spacing:.08em;cursor:pointer;background:#2A1B10;color:#F0D9A8;border:1.5px solid #8A6435;font-family:system-ui,sans-serif;}
-.vu-btn.start{background:#FFB545;color:#1A120B;border-color:#FFB545;}
-.vu-links{display:flex;justify-content:space-between;margin-top:10px;}
-.vu-links button{background:none;border:0;color:#A98B5F;font-size:12px;font-weight:700;padding:8px 2px;cursor:pointer;font-family:system-ui,sans-serif;}
 
 #chApp{display:none;}
 body.theme-chrono .app-shell{display:none !important;}
@@ -1577,9 +1487,9 @@ body.theme-ios #iosApp{display:block;max-width:560px;margin:0 auto;min-height:10
 .ios-links button svg{width:19px;height:19px;}
 .ios-home{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:120px;height:4.5px;border-radius:3px;background:rgba(30,30,40,.55);}
 .sh-extra{margin-top:14px;}
-.sh-filt{padding:10px 12px;margin:0 0 10px;border:1px solid;}
-.sh-filt-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:6px;}
-.sh-dual{position:relative;width:100%;height:22px;margin-top:2px;}
+.sh-filt{padding:4px 8px 2px;margin:0 0 10px;border:1px solid;}
+.sh-filt-head{display:flex;justify-content:space-between;font-size:9px;font-weight:700;letter-spacing:.08em;margin-bottom:0;}
+.sh-dual{position:relative;width:100%;height:20px;margin-top:0;}
 .sh-dual-track{position:absolute;top:50%;transform:translateY(-50%);width:100%;height:2px;background:currentColor;opacity:.35;}
 .sh-dual-fill{position:absolute;top:50%;transform:translateY(-50%);height:2px;background:#888;pointer-events:none;}
 .sh-dual input[type="range"]{position:absolute;top:0;left:0;width:100%;height:100%;-webkit-appearance:none;appearance:none;background:transparent;pointer-events:none;margin:0;}
@@ -1797,7 +1707,6 @@ body.ab-on canvas#spectrum{height:36px;}
 .la-dl dd{margin:0;font-weight:700;}
 .la-note{font-size:10.5px;color:var(--mute);margin-top:8px;line-height:1.5;}
 
-.hist-foot{display:flex;justify-content:flex-end;margin-top:6px;}
 .tire-set-btn{background:#3A2C08;color:#FFB000;border:1px solid #FFB000;border-radius:8px;padding:7px 12px;font-weight:800;font-size:11px;cursor:pointer;font-family:var(--font);}
 .la-set{display:block;width:100%;margin-top:10px;background:#3A2C08;color:#FFB000;border:1px solid #FFB000;border-radius:8px;padding:10px;font-weight:800;font-size:12px;cursor:pointer;font-family:var(--font);}
 .conf-badge{font-size:12px;font-weight:700;text-align:center;min-height:16px;margin:0 0 4px;color:var(--mute)}
@@ -2665,6 +2574,14 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <select class="cond-select" id="machineMotorSelect"><option value="" selected="" data-ja="選択なし">選択なし</option><option value="NMP" data-ja="NMP">NMP</option><option value="TT2" data-ja="TT2P">TT2P</option><option value="AT2" data-ja="AT2P">AT2P</option><option value="RT2" data-ja="RT2P">RT2P</option><option value="LDP" data-ja="LDP">LDP</option><option value="HDP" data-ja="HDP">HDP</option><option value="MDP" data-ja="MDP">MDP</option></select>
 </div>
 <div class="machine-item">
+<div class="setting-label"><span>ギヤ比</span><span class="setting-value" id="machineGearLabel">3.7:1</span></div>
+<div class="tire-step-row step-row-3">
+<button type="button" class="tire-step-btn" id="gearMinus">−</button>
+<select class="cond-select" id="machineGearSelect"><option value="3.5:1" data-ja="3.5:1">3.5:1</option><option value="3.7:1" selected="" data-ja="3.7:1">3.7:1</option><option value="4.0:1" data-ja="4.0:1">4.0:1</option><option value="4.2:1" data-ja="4.2:1">4.2:1</option><option value="5:1" data-ja="5:1">5:1</option><option value="6.4:1" data-ja="6.4:1">6.4:1</option><option value="8.75:1" data-ja="8.75:1">8.75:1</option><option value="11.2:1" data-ja="11.2:1">11.2:1</option></select>
+<button type="button" class="tire-step-btn" id="gearPlus">＋</button>
+</div>
+</div>
+<div class="machine-item">
 <div class="setting-label"><span>電圧 (V)</span><span class="setting-value" id="machineVoltLabel">2.8 V</span></div>
 <div class="tire-step-row step-row-5">
 <button type="button" class="tire-step-btn" id="voltMinus1">-0.01</button>
@@ -2672,14 +2589,6 @@ The microphone is used to measure motor RPM from sound frequency. Audio is proce
 <input type="number" class="tire-step-input" id="machineVoltSelect" min="2.2" max="3.5" step="0.01" value="2.8" inputmode="decimal">
 <button type="button" class="tire-step-btn" id="voltPlus">+0.1</button>
 <button type="button" class="tire-step-btn" id="voltPlus1">+0.01</button>
-</div>
-</div>
-<div class="machine-item">
-<div class="setting-label"><span>ギヤ比</span><span class="setting-value" id="machineGearLabel">3.7:1</span></div>
-<div class="tire-step-row step-row-3">
-<button type="button" class="tire-step-btn" id="gearMinus">−</button>
-<select class="cond-select" id="machineGearSelect"><option value="3.5:1" data-ja="3.5:1">3.5:1</option><option value="3.7:1" selected="" data-ja="3.7:1">3.7:1</option><option value="4.0:1" data-ja="4.0:1">4.0:1</option><option value="4.2:1" data-ja="4.2:1">4.2:1</option><option value="5:1" data-ja="5:1">5:1</option><option value="6.4:1" data-ja="6.4:1">6.4:1</option><option value="8.75:1" data-ja="8.75:1">8.75:1</option><option value="11.2:1" data-ja="11.2:1">11.2:1</option></select>
-<button type="button" class="tire-step-btn" id="gearPlus">＋</button>
 </div>
 </div>
 <div class="machine-item">
@@ -3052,9 +2961,7 @@ function paintSpeedAvg() {
       note: document.getElementById("speedAvgNote"),
       rpmEl: document.getElementById("rpmAvg"),
       rpmNote: document.getElementById("rpmAvgNote"),
-      rpmSet: document.getElementById("rpmAvgSet"),
       speedSet: document.getElementById("speedAvgSet"),
-      rs: document.getElementById("rpmAvgStock"),
       ss: document.getElementById("speedAvgStock")
     };
   }
@@ -3070,14 +2977,9 @@ function paintSpeedAvg() {
   if (rpmEl) rpmEl.textContent = r == null ? "--" : Math.round(r).toLocaleString();
   const stabNow = currentStability();
   if (rpmNote) rpmNote.textContent = sec + (stabNow == null ? "" : " ・ 変動 " + stabNow.toFixed(1) + "%");
-  const rpmSet = paintAvgEls.rpmSet;
   const speedSet = paintAvgEls.speedSet;
-  const gearNow = parseFloat(String((gearOptions && gearOptions[UI.gearRange.value]) || "3.7").split(":")[0]) || 3.7;
-  if (rpmSet) rpmSet.textContent = avgSpeedMs < 1000 ? "--" : String(Math.round((avgRpmStockSum / avgSpeedMs) / gearNow));
   if (speedSet) speedSet.textContent = v == null ? "--" : v.toFixed(2);
-  const rs = paintAvgEls.rs;
   const ss = paintAvgEls.ss;
-  if (rs) rs.textContent = avgSpeedMs < 1000 ? "--" : Math.round(avgRpmStockSum / avgSpeedMs).toLocaleString();
   if (ss) ss.textContent = avgSpeedMs < 1000 ? "--" : (avgSpeedStockSum / avgSpeedMs).toFixed(2);
 }
 function addSpeedSample(speed, rpm, dt) {
@@ -3759,11 +3661,6 @@ if (ready) addSpeedSample(speed, rpmNum, gate.dt);
 
 // 表示（負荷適用後 = メイン表示）
 UI.rpmNow.textContent = dispNow;
-const gearNow = parseFloat(String((gearOptions && gearOptions[UI.gearRange.value]) || "3.7").split(":")[0]) || 3.7;
-const rpmSet = document.getElementById("rpmNowSet");
-if (rpmSet) rpmSet.textContent = dispNow === "--" ? "--" : String(Math.round(rawRpm / gearNow));
-const rpmStock = document.getElementById("rpmNowStock");
-if (rpmStock) rpmStock.textContent = dispNow === "--" ? "--" : String(Math.round(rawRpm));
 applyRpmHit();
 UI.rpmMax.textContent = maxRpmVal > 0 ? Math.round(maxRpmVal) : "--";
 UI.rpmMin.textContent = minRpmVal !== Infinity ? Math.round(minRpmVal) : "--";
@@ -3795,7 +3692,6 @@ UI.speedMinRaw.textContent = "";
 avgLastTs = 0;
 UI.rpmNow.textContent = "--";
 UI.speedNow.textContent = "--";
-const rpmStockR = document.getElementById("rpmNowStock"); if (rpmStockR) rpmStockR.textContent = "--";
 const speedStockR = document.getElementById("speedNowStock"); if (speedStockR) speedStockR.textContent = "--";
 if (UI.rpmNowRaw) UI.rpmNowRaw.textContent = "";
 if (UI.speedNowRaw) UI.speedNowRaw.textContent = "";
@@ -4339,12 +4235,7 @@ function applyLoadToShown() {
     const disp = limitDisplay(Math.round(currentRpm));
     UI.rpmNow.textContent = disp === "--" ? "--" : String(disp);
     UI.speedNow.textContent = disp === "--" ? "--" : currentSpeed.toFixed(2);
-    const rpmStock = document.getElementById("rpmNowStock");
     const speedStock = document.getElementById("speedNowStock");
-    const gearNow = parseFloat(String((gearOptions && gearOptions[UI.gearRange.value]) || "3.7").split(":")[0]) || 3.7;
-    const rpmSet = document.getElementById("rpmNowSet");
-    if (rpmSet) rpmSet.textContent = String(Math.round(currentRpmRaw / gearNow));
-    if (rpmStock) rpmStock.textContent = String(Math.round(currentRpmRaw));
     if (speedStock) speedStock.textContent = (currentRpmRaw / 3.7 * 22.5 * Math.PI * 60 / 1e6).toFixed(2);
     UI.rpmNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + Math.round(currentRpmRaw)) : "";
     UI.speedNowRaw.textContent = (showLoad && hasLoad && disp !== "--") ? ("生: " + currentSpeedRaw.toFixed(2)) : "";
@@ -4497,13 +4388,6 @@ function kmhFromShownRpm(rpm) {
 
 function refreshDisplayedSpeed() {
   if (!UI.speedNow) return;
-  const cond = document.getElementById("speedNowCond");
-  if (cond) {
-    const gear = (UI.gearLabel && UI.gearLabel.textContent) || "3.7:1";
-    const tire = (UI.tireLabel && UI.tireLabel.textContent) || "22.5 mm";
-    const load = (UI.loadFactorLabel && UI.loadFactorLabel.textContent) || "0%";
-    cond.textContent = gear + " / " + tire + (load !== "0%" ? " / " + load : "");
-  }
   const now = kmhFromShownRpm(currentRpm);
   if (now != null) {
     currentSpeed = now;
@@ -4531,11 +4415,6 @@ function refreshMachineSummary() {
   const volt = (document.getElementById("machineVoltSelect") || {}).value || "2.8";
   const motor = (document.getElementById("machineMotorSelect") || {}).value || "未選択";
   const shaftText = machineState.shaft === "single" ? "片軸" : (machineState.shaft === "dual" ? "両軸" : "指定なし");
-  const el = document.getElementById("machineSummary");
-  if (el) {
-    el.textContent = shaftText + " / " + info.name + " / " + info.note + " / " +
-      (motor || "モーター未選択") + " / " + volt + "V / " + gear + " / " + parseFloat(tire).toFixed(1) + "mm";
-  }
   const hint = document.getElementById("chassisHint");
   if (hint) hint.textContent = info.note + "。速度は机上換算で、シャーシ固有ロス％は自動加算していません。";
   const sl = document.getElementById("shaftLabel");
@@ -4550,12 +4429,6 @@ function refreshMachineSummary() {
   if (vl) vl.textContent = fmtVolt(parseFloat(volt)) + " V";
   if (gl) gl.textContent = gear;
   if (tl) tl.textContent = parseFloat(tire).toFixed(1) + " mm";
-  const reflect = document.getElementById("machineReflectNote");
-  if (reflect) {
-    const gnum = parseFloat(String(gear).split(":")[0]) || 0;
-    reflect.textContent = (gnum ? ("軸回転 = モーターrpm ÷ " + gnum + "（クラウンは比1:1）") : "軸回転 = モーターrpm ÷ ギヤ比") +
-      " ／ ロック後の比較表・画面速度・保存メモに反映";
-  }
 }
 
 function rebuildMachineLists() {
@@ -4600,10 +4473,6 @@ function rebuildMachineLists() {
   });
   const cs = document.getElementById("chassisSelect");
   if (cs) cs.value = machineState.chassis;
-  const sm = document.getElementById("saveModeSelect");
-  if (sm) sm.value = machineState.saveMode || "ask";
-  const rn = document.getElementById("recordNameInput");
-  if (rn && !rn.value && machineState.recordName) rn.value = machineState.recordName;
   refreshMachineSummary();
 }
 
@@ -4617,7 +4486,6 @@ window.__rpmTakeMachineSnap = function() {
     window.__rpmMachineSnap = {
       state: JSON.parse(JSON.stringify(window.machineState || {})),
       volt: gv("machineVoltSelect"), gear: gv("machineGearSelect"), tire: gv("machineTireInput"),
-      saveMode: gv("saveModeSelect"), recordName: gv("recordNameInput"),
       load: (typeof UI !== "undefined" && UI.loadFactorRange) ? UI.loadFactorRange.value : null,
       amp: gv("vaAmpRange"), ohm: gv("ohmRange"), useAmp: gc("vaUseInMeasure"), useOhm: gc("vaUseOhm")
     };
@@ -4640,8 +4508,6 @@ window.__rpmRestoreMachineSnap = function() {
   sv("machineTireInput", snap.tire);
   sv("machineMotorSelect", machineState.motor);
   sv("chassisSelect", machineState.chassis);
-  sv("saveModeSelect", snap.saveMode);
-  sv("recordNameInput", snap.recordName);
   if (snap.load != null && typeof UI !== "undefined" && UI.loadFactorRange) {
     UI.loadFactorRange.value = snap.load;
     if (UI.loadFactorLabel) UI.loadFactorLabel.textContent = snap.load + "%";
@@ -4669,13 +4535,9 @@ window.openMachineModal = function() {
 function persistMachine() {
   setTimeout(function(){ if (typeof refreshMachineStatusUI==="function") refreshMachineStatusUI(); if (locked) buildComparisonTable((lockedSnapshot && lockedSnapshot.rpmRaw) || currentRpmRaw || 0); }, 0);
   const motorSel = document.getElementById("machineMotorSelect");
-  const saveMode = document.getElementById("saveModeSelect");
   if (motorSel) machineState.motor = motorSel.value;
   const voltIn = document.getElementById("machineVoltSelect");
   if (voltIn && voltIn.value !== "") machineState.volt = voltIn.value;
-  if (saveMode) machineState.saveMode = saveMode.value;
-  const recordName = document.getElementById("recordNameInput");
-  if (recordName) machineState.recordName = recordName.value;
   localStorage.setItem("rpmMachine", JSON.stringify(machineState));
   syncMachineToMain();
   refreshMachineSummary();
@@ -4785,7 +4647,7 @@ renderSetupFavs();
     persistMachine();
     if (locked) buildComparisonTable((lockedSnapshot && lockedSnapshot.rpmRaw) || currentRpmRaw || 0);
   });
-  ["machineVoltSelect","machineGearSelect","machineMotorSelect","machineTireInput","saveModeSelect","recordNameInput"].forEach(function(id) {
+  ["machineVoltSelect","machineGearSelect","machineMotorSelect","machineTireInput"].forEach(function(id) {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener("input", persistMachine);
@@ -4872,10 +4734,6 @@ renderSetupFavs();
     closeMachine();
   });
   if (localStorage.getItem("rpmMachineApplied") === "1") document.body.classList.add("machine-applied");
-  const lockMemoBtn = document.getElementById("machineToRevBtn");
-  if (lockMemoBtn) lockMemoBtn.addEventListener("click", function() {
-    if (typeof window.renderLockSnaps === "function") window.renderLockSnaps();
-  });
   window.renderLockSnaps = function() {
     const body = document.querySelector("#lockSnapTable tbody");
     if (!body) return;
@@ -5294,14 +5152,6 @@ if (typeof updateRawVisibility === "function") updateRawVisibility();
 /* ========== 保存（負荷情報付き） ========== */
 document.getElementById("saveConfirmBtn").addEventListener("click", () => {
 const name = UI.saveNameInput.value.trim() || "No Name";
-const recordName = document.getElementById("recordNameInput");
-if (recordName && name !== "No Name") {
-  recordName.value = name;
-  if (window.machineState) {
-    machineState.recordName = name;
-    localStorage.setItem("rpmMachine", JSON.stringify(machineState));
-  }
-}
 const motor = UI.motorTypeSelect.value || "未選択";
 const loadPercent = parseFloat(UI.loadFactorRange.value);
 const hasLoad = loadPercent !== 0;
@@ -5337,7 +5187,7 @@ abNow: abSnap ? abSnap.now : null,
 abDiff: abSnap ? abSnap.diff : null,
 abName: abSnap ? abSnap.name : null,
 amp: (function(){ const u = document.getElementById("vaUseInMeasure"); const a = document.getElementById("vaAmpRange"); return (u && u.checked && a) ? Number(a.value).toFixed(1) : null; })(),
-ohm: (function(){ const u = document.getElementById("vaUseOhm"); const s = document.getElementById("vaOhmSlider"); return (u && u.checked && s) ? Number(s.value).toFixed(2) : null; })()
+ohm: null
 };
 
 const appendChk = document.getElementById("saveAppendChk");
@@ -5462,9 +5312,6 @@ function histDateOnly(h) {
     if (!isNaN(d.getTime())) return d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
   }
   return String((h && (h.date || h.datetime)) || "").replace(/\s+\d{1,2}:\d{2}(:\d{2})?.*$/, "");
-}
-function histCell(v) {
-  return `<div class="hist-cell"><span class="hist-v">${v}</span></div>`;
 }
 function histGearLabel(g) {
   const s = String(g || "").trim();
@@ -5986,11 +5833,10 @@ document.addEventListener('touchmove', function(e) {
   const power = document.getElementById("vaPower");
   const table = document.getElementById("vaTable");
   const use = document.getElementById("vaUseInMeasure");
-  const note = document.getElementById("vaFactorNote");
   if (!range) return;
   try { if (use) use.checked = localStorage.getItem("rpmUseAmp") === "1"; } catch (e) {}
   function volt() {
-    const sel = document.getElementById("machineVoltSelect") || document.getElementById("voltageSelect");
+    const sel = document.getElementById("machineVoltSelect");
     const v = sel ? parseFloat(sel.value) : 2.8;
     return isFinite(v) ? v : 2.8;
   }
@@ -6068,12 +5914,6 @@ document.addEventListener('touchmove', function(e) {
     if (typeof paintGearLive === "function") paintGearLive();
   }
   range.addEventListener("input", paint);
-  document.querySelectorAll("#vaPresets button").forEach(function(b) {
-    b.addEventListener("click", function() {
-      range.value = b.getAttribute("data-a");
-      paint();
-    });
-  });
   if (use) use.addEventListener("change", function() {
     try { localStorage.setItem("rpmUseAmp", use.checked ? "1" : "0"); } catch (e) {}
     paint();
@@ -6171,10 +6011,6 @@ const vaNoteBtn = document.getElementById("vaNoteBtn");
     langBtn.classList.toggle("is-on", open);
     if (lookBtn) lookBtn.classList.remove("is-on");
   });
-  const sm = document.getElementById("settingsMachineBtn");
-  if (sm) sm.addEventListener("click", function() {
-    if (window.openMachineModal) openMachineModal();
-  });
 })();
 
 /* ========== 全シェル共通: 集音フィルタ＋ロック比較表 ========== */
@@ -6235,7 +6071,7 @@ const vaNoteBtn = document.getElementById("vaNoteBtn");
       var wrap = document.createElement("div");
       wrap.className = "sh-extra";
       var specHtml = '';
-      wrap.innerHTML = '<div class="sh-status"><span id="' + P + 'Status"></span><span id="' + P + 'Th"></span></div><div class="sh-tire" style="display:none">'
+      wrap.innerHTML = '<div class="sh-tire" style="display:none">'
         + '<button type="button" class="sh-tire-btn" id="' + P + 'TireBtn">タイヤ付</button>'
         + '<div class="sh-tire-strip" id="' + P + 'TireStrip" hidden>'
         + '<div class="sh-tire-chassis">シャーシ <span id="' + P + 'TireChassis">―</span></div>'
@@ -6243,16 +6079,21 @@ const vaNoteBtn = document.getElementById("vaNoteBtn");
         + '<button type="button" class="sh-tire-cell" id="' + P + 'TireBaseCell"><span class="k" id="' + P + 'TireBaseKey">単体（タップで取り直し）</span><span class="v" id="' + P + 'TireBase">―</span></button>'
         + '<div class="sh-tire-cell"><span class="k">タイヤ付</span><span class="v" id="' + P + 'TireNow">―</span></div>'
         + '<div class="sh-tire-cell"><span class="k">駆動ロス</span><span class="v loss" id="' + P + 'TireLoss">―</span></div>'
-        + '</div></div></div>'
+        + '</div></div>'
         + '<div class="sh-tire-strip" id="' + P + 'AbStrip" hidden>'
         + '<div class="sh-tire-chassis">A/B比較 ・ 基準 <button type="button" id="' + P + 'AbName">（名前なし）</button></div>'
         + '<div class="sh-tire-cells">'
         + '<button type="button" class="sh-tire-cell" id="' + P + 'AbBaseCell"><span class="k">基準（タップで今を基準に）</span><span class="v" id="' + P + 'AbBase">―</span></button>'
         + '<div class="sh-tire-cell"><span class="k">今</span><span class="v" id="' + P + 'AbNow">―</span></div>'
         + '<div class="sh-tire-cell"><span class="k">差</span><span class="v loss" id="' + P + 'AbDiff">―</span></div>'
-        + '</div></div>' + specHtml;
+        + '</div></div></div>' + specHtml;
       if (anchorEl && anchorEl.parentNode) anchorEl.parentNode.insertBefore(wrap, anchorEl);
       else app.appendChild(wrap);
+      var stat = document.createElement("div");
+      stat.className = "sh-extra";
+      stat.innerHTML = '<div class="sh-status"><span id="' + P + 'Status"></span><span id="' + P + 'Th"></span></div>';
+      if (anchorEl && anchorEl.parentNode) anchorEl.parentNode.insertBefore(stat, anchorEl);
+      else app.appendChild(stat);
       tapBind($(P + "TireBtn"), "tireBtn");
       tapBind($(P + "TireBaseCell"), "tireBaseCell");
       tapBind($(P + "AbBaseCell"), "abBaseCell");
@@ -6292,6 +6133,29 @@ const vaNoteBtn = document.getElementById("vaNoteBtn");
       if (rpmEl) { rpmEl.style.cursor = "pointer"; tapBind(rpmEl, "rpmBlock"); }
     });
     document.querySelectorAll(".sh-btnrow").forEach(function(r) { if (!r.querySelector("button")) r.remove(); });
+    ["paper", "mat", "ch", "bp", "gb"].forEach(function(P) {
+      var fv = $(P + "FiltVal"); if (!fv) return;
+      var fw = fv.closest(".sh-extra"); if (!fw || !fw.parentNode) return;
+      var host = fw.parentNode;
+      var head = host.querySelector('[class*="head"]');
+      if (head && head.parentNode === host && head !== fw) { host.insertBefore(fw, head.nextSibling); return; }
+      var brow = host.querySelector(".sh-btnrow") || host.querySelector(".gb-controls");
+      if (brow && brow !== fw) host.insertBefore(fw, brow);
+    });
+    ["paper", "mat", "ch", "bp", "gb", "ios", "dash"].forEach(function(P) {
+      var st = $(P + "Status"); if (!st) return;
+      var sw = st.closest(".sh-extra"); if (!sw || !sw.parentNode) return;
+      var hostS = sw.parentNode;
+      var browS = hostS.querySelector(".sh-btnrow") || hostS.querySelector(".gb-controls");
+      if (browS && browS !== sw) hostS.insertBefore(sw, browS);
+    });
+    ["paper", "mat", "ch", "bp", "gb", "ios", "dash"].forEach(function(P) {
+      var ts = $(P + "TireStrip"); if (!ts) return;
+      var tw = ts.closest(".sh-extra"); if (!tw || !tw.parentNode) return;
+      var hostT = tw.parentNode;
+      var browT = hostT.querySelector(".sh-btnrow") || hostT.querySelector(".gb-controls");
+      if (browT && browT !== tw) hostT.insertBefore(tw, browT);
+    });
     var sabBtn = $("abBtn");
     if (sabBtn && !sabBtn.querySelector("svg")) sabBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M4 7h13"/><path d="M13 3l4 4-4 4"/><path d="M20 17H7"/><path d="M11 13l-4 4 4 4"/></svg>A/B比較';
     var lastKey = "";
@@ -7639,11 +7503,11 @@ window.tr = function(s) { s = String(s); return window.APP_LANG === "en" ? trTex
 
 <div id="dashApp">
 
-<div style="border:1px solid #2a2a2a;padding:4px 8px;margin-bottom:8px;">
+<div style="border:1px solid #2a2a2a;padding:4px 8px 2px;margin-bottom:8px;">
 <div style="display:flex;justify-content:space-between;font-size:9px;color:#888;">
 <span>集音フィルタ (RPM範囲)</span><span id="dashFilterRange">5000 - 50000</span>
 </div>
-<div style="height:28px;position:relative;margin-top:4px;">
+<div style="height:20px;position:relative;margin-top:0;">
 <input type="range" id="dashMinLimit" min="0" max="60000" step="500" value="5000" style="position:absolute;width:100%;pointer-events:none;background:transparent;-webkit-appearance:none;">
 <input type="range" id="dashMaxLimit" min="0" max="60000" step="500" value="50000" style="position:absolute;width:100%;pointer-events:none;background:transparent;-webkit-appearance:none;">
 <div style="position:absolute;top:50%;width:100%;height:2px;background:#2a2a2a;"></div>
@@ -7692,36 +7556,6 @@ window.tr = function(s) { s = String(s); return window.APP_LANG === "en" ? trTex
   setInterval(function() {
     if (!document.body.classList.contains("theme-dash2")) return;
     c("rpmNow", "dashRpmNow"); c("rpmAvg", "dashRpmAvg"); c("rpmMax", "dashRpmMax"); c("rpmMin", "dashRpmMin");
-    var dashSpec = document.getElementById("dashSpectrum");
-    if (dashSpec && typeof dataArray !== "undefined" && dataArray && typeof audioContext !== "undefined" && audioContext) {
-      var dctx = dashSpec.getContext("2d");
-      var dpr = 2;
-      var w = dashSpec.clientWidth || 300;
-      var h = dashSpec.clientHeight || 86;
-      if (dashSpec.width !== w * dpr) { dashSpec.width = w * dpr; dashSpec.height = h * dpr; }
-      dctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      dctx.fillStyle = "#0a0a0c";
-      dctx.fillRect(0, 0, w, h);
-      var binToHz = audioContext.sampleRate / (typeof FFT_SIZE !== "undefined" ? FFT_SIZE : 8192);
-      var minL = parseFloat(document.getElementById("rpmMinLimit").value) || 0;
-      var maxL = parseFloat(document.getElementById("rpmMaxLimit").value) || 60000;
-      var span = maxL - minL;
-      if (span <= 0) span = 1;
-      dctx.beginPath();
-      dctx.strokeStyle = "#ff973d";
-      dctx.lineWidth = 1.5;
-      var started = false;
-      for (var i = 1; i < dataArray.length; i++) {
-        var rpm = i * binToHz * 60;
-        if (rpm < minL || rpm > maxL) continue;
-        var x = ((rpm - minL) / span) * w;
-        var mag = dataArray[i] / 255;
-        var y = (h - 2) - mag * (h - 4);
-        if (!started) { dctx.moveTo(x, y); started = true; }
-        else dctx.lineTo(x, y);
-      }
-      if (started) dctx.stroke();
-    }
     var minEl = document.getElementById("rpmMinLimit");
     var maxEl = document.getElementById("rpmMaxLimit");
     var rangeEl = document.getElementById("dashFilterRange");
@@ -8023,3 +7857,4 @@ window.tr = function(s) { s = String(s); return window.APP_LANG === "en" ? trTex
 })();
 </script>
 </body></html>
+  
